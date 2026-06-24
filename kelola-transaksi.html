@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Transaksi — KosBites Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --green: #22C55E;
+      --green-dark: #16A34A;
+      --green-light: #DCFCE7;
+      --green-pale: #F0FDF4;
+      --yellow: #F8C536;
+      --yellow-light: #FEF9C3;
+      --yellow-dark: #D97706;
+      --text: #1A2E1A;
+      --muted: #6B7F6B;
+      --border: #E2F0E2;
+      --off: #F7FDF7;
+      --sidebar: #1A2E1A;
+      --radius: 14px;
+      --radius-sm: 9px;
+      --t: 0.25s cubic-bezier(0.4, 0, 0.2, 1)
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased
+    }
+
+    .sidebar {
+      width: 230px;
+      background: var(--sidebar);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 50
+    }
+
+    .sidebar-logo {
+      padding: 1.5rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px
+    }
+
+    .logo-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff
+    }
+
+    .logo-text span {
+      color: var(--green)
+    }
+
+    .sidebar-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .3);
+      padding: .1rem 0 0 .25rem
+    }
+
+    .sidebar-menu {
+      flex: 1;
+      padding: 1rem 0
+    }
+
+    .menu-section {
+      margin-bottom: 1.5rem
+    }
+
+    .menu-section-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .3);
+      padding: .5rem 1.25rem;
+      margin-bottom: .25rem
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: .65rem 1.25rem;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, .6);
+      cursor: pointer;
+      transition: all var(--t);
+      border-left: 3px solid transparent;
+      text-decoration: none
+    }
+
+    .menu-item:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .menu-item.active {
+      color: #fff;
+      background: rgba(34, 197, 94, .15);
+      border-left-color: var(--green)
+    }
+
+    .menu-item .icon {
+      font-size: 15px;
+      width: 20px;
+      text-align: center
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .admin-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .admin-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px
+    }
+
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .admin-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .admin-role {
+      font-size: 10px;
+      color: rgba(255, 255, 255, .4)
+    }
+
+    .main {
+      margin-left: 230px;
+      flex: 1;
+      display: flex;
+      flex-direction: column
+    }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40
+    }
+
+    .topbar-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text)
+    }
+
+    .btn-export {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      transition: all .2s
+    }
+
+    .btn-export:hover {
+      border-color: var(--green);
+      color: var(--green-dark)
+    }
+
+    .content {
+      padding: 2rem
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 1.5rem
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: box-shadow var(--t)
+    }
+
+    .stat-card:hover {
+      box-shadow: 0 4px 14px rgba(34, 197, 94, .08)
+    }
+
+    .stat-icon {
+      font-size: 1.5rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .stat-icon.g {
+      background: var(--green-pale)
+    }
+
+    .stat-icon.y {
+      background: var(--yellow-light)
+    }
+
+    .stat-icon.b {
+      background: #EFF6FF
+    }
+
+    .stat-icon.r {
+      background: #FEF2F2
+    }
+
+    .stat-val {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text)
+    }
+
+    .stat-lbl {
+      font-size: 10px;
+      color: var(--muted)
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .65rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .search-box:focus-within {
+      border-color: var(--green)
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: none;
+      flex: 1
+    }
+
+    .search-box input::placeholder {
+      color: var(--muted)
+    }
+
+    .filter-select {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .65rem 1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      outline: none
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 0;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 1.5rem
+    }
+
+    .tab {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: .65rem 1.25rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1.5px;
+      transition: color .2s, border-color .2s
+    }
+
+    .tab.active {
+      color: var(--green-dark);
+      border-bottom-color: var(--green)
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden
+    }
+
+    thead {
+      background: var(--off)
+    }
+
+    th {
+      padding: .75rem 1rem;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: left;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border)
+    }
+
+    td {
+      padding: .85rem 1rem;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    tr:hover td {
+      background: var(--green-pale)
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .user-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .order-id {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .order-items {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 99px;
+      padding: 4px 10px;
+      white-space: nowrap
+    }
+
+    .badge-success {
+      background: var(--green-light);
+      color: var(--green-dark)
+    }
+
+    .badge-pending {
+      background: var(--yellow-light);
+      color: var(--yellow-dark)
+    }
+
+    .badge-process {
+      background: #DBEAFE;
+      color: #1D4ED8
+    }
+
+    .badge-cancel {
+      background: #FEE2E2;
+      color: #DC2626
+    }
+
+    .amount {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--green-dark)
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px
+    }
+
+    .btn-action {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text)
+    }
+
+    .btn-action:hover {
+      border-color: var(--green);
+      color: var(--green-dark)
+    }
+
+    .btn-action.success {
+      border-color: var(--green);
+      color: var(--green-dark);
+      background: var(--green-pale)
+    }
+
+    .btn-action.danger:hover {
+      border-color: #EF4444;
+      color: #EF4444
+    }
+
+    .pagination {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 1.25rem
+    }
+
+    .page-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s
+    }
+
+    .page-btn.active {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green)
+    }
+
+    .page-btn:hover:not(.active) {
+      border-color: var(--green);
+      color: var(--green-dark)
+    }
+
+    /* DETAIL MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .4);
+      z-index: 200;
+      align-items: center;
+      justify-content: center
+    }
+
+    .modal-overlay.show {
+      display: flex
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 480px
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 1.25rem
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px
+    }
+
+    .detail-row:last-of-type {
+      border-bottom: none
+    }
+
+    .detail-lbl {
+      color: var(--muted)
+    }
+
+    .detail-val {
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 1.25rem
+    }
+
+    .btn-cancel {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif
+    }
+
+    .btn-confirm {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif
+    }
+
+    @media(max-width:900px) {
+      .sidebar {
+        display: none
+      }
+
+      .main {
+        margin-left: 0
+      }
+
+      .stats-row {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-row">
+        <div class="logo-icon">🍱</div>
+        <div class="logo-text">Kos<span>Bites</span></div>
+      </div>
+      <div class="sidebar-label">Admin Panel</div>
+    </div>
+    <nav class="sidebar-menu">
+      <div class="menu-section">
+        <div class="menu-section-label">Utama</div><a class="menu-item" href="dashboard.html"><span
+            class="icon">📊</span>Dashboard</a><a class="menu-item active" href="kelola-transaksi.html"><span
+            class="icon">💳</span>Kelola Transaksi</a>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-label">Konten</div><a class="menu-item" href="kelola-produk.html"><span
+            class="icon">🍽️</span>Kelola Produk</a><a class="menu-item" href="kelola-artikel.html"><span
+            class="icon">📰</span>Kelola Artikel</a>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-label">Pengguna</div><a class="menu-item" href="kelola-pengguna.html"><span
+            class="icon">👥</span>Kelola Pengguna</a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-chip">
+        <div class="admin-avatar"><img src="img/admin.jpg" alt="Admin"></div>
+        <div>
+          <div class="admin-name">Admin KosBites</div>
+          <div class="admin-role">Super Admin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">💳 Kelola Transaksi</div>
+      <button class="btn-export">⬇ Export CSV</button>
+    </div>
+    <div class="content">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon g">💰</div>
+          <div>
+            <div class="stat-val">Rp 4,2jt</div>
+            <div class="stat-lbl">Pendapatan Bulan Ini</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon y">⏳</div>
+          <div>
+            <div class="stat-val">22</div>
+            <div class="stat-lbl">Diproses</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon b">✅</div>
+          <div>
+            <div class="stat-val">111</div>
+            <div class="stat-lbl">Selesai</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon r">✕</div>
+          <div>
+            <div class="stat-val">15</div>
+            <div class="stat-lbl">Dibatalkan</div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-row">
+        <div class="search-box"><span>🔍</span><input type="text" placeholder="Cari ID transaksi atau nama..."></div>
+        <select class="filter-select">
+          <option>Semua Status</option>
+          <option>Menunggu</option>
+          <option>Diproses</option>
+          <option>Dikirim</option>
+          <option>Selesai</option>
+          <option>Dibatalkan</option>
+        </select>
+        <select class="filter-select">
+          <option>Semua Metode</option>
+          <option>GoPay</option>
+          <option>OVO</option>
+          <option>Transfer Bank</option>
+          <option>COD</option>
+        </select>
+        <select class="filter-select">
+          <option>Semua Waktu</option>
+          <option>Hari Ini</option>
+          <option>7 Hari</option>
+          <option>30 Hari</option>
+        </select>
+      </div>
+      <div class="tab-row">
+        <div class="tab active" onclick="setTab(this)">Semua (148)</div>
+        <div class="tab" onclick="setTab(this)">Menunggu (8)</div>
+        <div class="tab" onclick="setTab(this)">Diproses (22)</div>
+        <div class="tab" onclick="setTab(this)">Selesai (111)</div>
+        <div class="tab" onclick="setTab(this)">Dibatalkan (7)</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID Transaksi</th>
+            <th>Pelanggan</th>
+            <th>Item</th>
+            <th>Total</th>
+            <th>Metode</th>
+            <th>Status</th>
+            <th>Waktu</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="order-id">#KB-20250513-001</div>
+            </td>
+            <td>
+              <div class="user-info">
+                <div class="user-avatar" style="background:#22C55E">A</div>
+                <div class="user-name">Andy Pratama</div>
+              </div>
+            </td>
+            <td>
+              <div class="order-items">Ayam Geprek x2, Tumis Brokoli x1</div>
+            </td>
+            <td>
+              <div class="amount">Rp 50.000</div>
+            </td>
+            <td>GoPay</td>
+            <td><span class="badge badge-success">✓ Selesai</span></td>
+            <td>12:30</td>
+            <td>
+              <div class="actions"><button class="btn-action"
+                  onclick="document.getElementById('modalDetail').classList.add('show')">Detail</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="order-id">#KB-20250513-002</div>
+            </td>
+            <td>
+              <div class="user-info">
+                <div class="user-avatar" style="background:#3B82F6">R</div>
+                <div class="user-name">Rina Kusuma</div>
+              </div>
+            </td>
+            <td>
+              <div class="order-items">Semur Daging x1, Telur Balado x2</div>
+            </td>
+            <td>
+              <div class="amount">Rp 46.000</div>
+            </td>
+            <td>OVO</td>
+            <td><span class="badge badge-process">🚴 Dikirim</span></td>
+            <td>11:15</td>
+            <td>
+              <div class="actions"><button class="btn-action success">✓ Selesai</button><button class="btn-action"
+                  onclick="document.getElementById('modalDetail').classList.add('show')">Detail</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="order-id">#KB-20250513-003</div>
+            </td>
+            <td>
+              <div class="user-info">
+                <div class="user-avatar" style="background:#8B5CF6">B</div>
+                <div class="user-name">Budi Santoso</div>
+              </div>
+            </td>
+            <td>
+              <div class="order-items">Telur Balado x2</div>
+            </td>
+            <td>
+              <div class="amount">Rp 24.000</div>
+            </td>
+            <td>Transfer Bank</td>
+            <td><span class="badge badge-pending">⏳ Diproses</span></td>
+            <td>10:00</td>
+            <td>
+              <div class="actions"><button class="btn-action success">✓ Konfirmasi</button><button
+                  class="btn-action danger">✕ Batal</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="order-id">#KB-20250513-004</div>
+            </td>
+            <td>
+              <div class="user-info">
+                <div class="user-avatar" style="background:#F59E0B">S</div>
+                <div class="user-name">Sari Dewi</div>
+              </div>
+            </td>
+            <td>
+              <div class="order-items">Tumis Brokoli x1, Sayur Asem x1</div>
+            </td>
+            <td>
+              <div class="amount">Rp 24.000</div>
+            </td>
+            <td>GoPay</td>
+            <td><span class="badge badge-success">✓ Selesai</span></td>
+            <td>09:30</td>
+            <td>
+              <div class="actions"><button class="btn-action"
+                  onclick="document.getElementById('modalDetail').classList.add('show')">Detail</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="order-id">#KB-20250513-005</div>
+            </td>
+            <td>
+              <div class="user-info">
+                <div class="user-avatar" style="background:#EF4444">D</div>
+                <div class="user-name">Doni Susanto</div>
+              </div>
+            </td>
+            <td>
+              <div class="order-items">Rendang Sapi x1</div>
+            </td>
+            <td>
+              <div class="amount">Rp 25.000</div>
+            </td>
+            <td>COD</td>
+            <td><span class="badge badge-cancel">✕ Dibatalkan</span></td>
+            <td>08:45</td>
+            <td>
+              <div class="actions"><button class="btn-action"
+                  onclick="document.getElementById('modalDetail').classList.add('show')">Detail</button></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button class="page-btn">‹</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn" onclick="setPage(this)">2</button>
+        <button class="page-btn" onclick="setPage(this)">3</button>
+        <button class="page-btn">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETAIL -->
+  <div class="modal-overlay" id="modalDetail">
+    <div class="modal">
+      <div class="modal-title">📋 Detail Transaksi #KB-20250513-001</div>
+      <div class="detail-row"><span class="detail-lbl">Pelanggan</span><span class="detail-val">Andy Pratama</span>
+      </div>
+      <div class="detail-row"><span class="detail-lbl">Alamat</span><span class="detail-val">Jl. Semolowaru No.12</span>
+      </div>
+      <div class="detail-row"><span class="detail-lbl">Item</span><span class="detail-val">Ayam Geprek x2, Brokoli
+          x1</span></div>
+      <div class="detail-row"><span class="detail-lbl">Subtotal</span><span class="detail-val">Rp 50.000</span></div>
+      <div class="detail-row"><span class="detail-lbl">Ongkir</span><span class="detail-val">Rp 5.000</span></div>
+      <div class="detail-row"><span class="detail-lbl">Total</span><span class="detail-val"
+          style="color:var(--green-dark)">Rp 55.000</span></div>
+      <div class="detail-row"><span class="detail-lbl">Metode</span><span class="detail-val">GoPay</span></div>
+      <div class="detail-row"><span class="detail-lbl">Status</span><span class="detail-val"
+          style="color:var(--green-dark)">✓ Selesai</span></div>
+      <div class="modal-footer">
+        <button class="btn-cancel"
+          onclick="document.getElementById('modalDetail').classList.remove('show')">Tutup</button>
+        <button class="btn-confirm">Cetak Invoice</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setTab(el) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); el.classList.add('active') }
+    function setPage(el) { document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active')); el.classList.add('active') }
+    document.getElementById('modalDetail').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('show') })
+  </script>
+</body>
+
+</html>

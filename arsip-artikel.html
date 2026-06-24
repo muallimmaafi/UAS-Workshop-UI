@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artikel & Tips — KosBites</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ===========================
+       RESET & ROOT VARIABLES
+    =========================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --green:        #22C55E;
+      --green-dark:   #16A34A;
+      --green-light:  #DCFCE7;
+      --green-pale:   #F0FDF4;
+      --yellow:       #F8C536;
+      --yellow-light: #FEF9C3;
+      --yellow-dark:  #D97706;
+      --white:        #FFFFFF;
+      --text:         #1A2E1A;
+      --muted:        #6B7F6B;
+      --border:       #E2F0E2;
+      --off:          #F7FDF7;
+      --radius:       16px;
+      --radius-sm:    10px;
+      --transition:   0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-sm:    0 2px 12px rgba(34,197,94,0.06);
+      --shadow-md:    0 8px 24px rgba(34,197,94,0.10);
+      --shadow-lg:    0 12px 32px rgba(34,197,94,0.13);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===========================
+       ANIMATIONS
+    =========================== */
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      from { transform: translateY(24px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    /* ===========================
+       NAVBAR
+    =========================== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 253, 247, 0.90);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: slideDown 0.5s ease both;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--green);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .logo-text span { color: var(--green); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.75rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-outline {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green-dark);
+      background: none;
+      border: 1.5px solid var(--green);
+      border-radius: 99px;
+      padding: 7px 18px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .btn-outline:hover { background: var(--green-light); }
+
+    .btn-green {
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      background: var(--green);
+      border: none;
+      border-radius: 99px;
+      padding: 7px 20px;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .btn-green:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ===========================
+       PAGE HEADER
+    =========================== */
+    .page-header {
+      background: linear-gradient(135deg, var(--green-pale), var(--yellow-light));
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+      animation: fadeUp 0.55s ease both;
+    }
+
+    .page-header .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 5px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green-dark);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .page-header p {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ===========================
+       FILTER BAR
+    =========================== */
+    .filter-bar {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding: 0 2rem;
+      animation: fadeUp 0.55s 0.1s ease both;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .search-box:focus-within {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: none;
+      flex: 1;
+    }
+
+    .search-box input::placeholder { color: var(--muted); }
+
+    .sort-select {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .sort-select:focus { border-color: var(--green); }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .chip:hover:not(.active) {
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+
+    /* ===========================
+       MAIN LAYOUT
+    =========================== */
+    .main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 2rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
+      animation: fadeUp 0.55s 0.2s ease both;
+    }
+
+    /* ===========================
+       ARTICLES COLUMN
+    =========================== */
+    .result-info {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      font-weight: 500;
+    }
+
+    .result-info span {
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    /* Featured Article */
+    .article-featured {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .article-featured:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feat-img {
+      background: var(--green-pale);
+      min-height: 210px;
+      overflow: hidden;
+    }
+
+    .feat-img img {
+      width: 100%;
+      height: 100%;
+      min-height: 210px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .feat-body {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .feat-badge {
+      display: inline-block;
+      background: var(--yellow-light);
+      border: 1px solid var(--yellow);
+      color: var(--yellow-dark);
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 99px;
+      padding: 3px 12px;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .feat-cat {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.4rem;
+    }
+
+    .feat-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 0.65rem;
+      letter-spacing: -0.01em;
+    }
+
+    .feat-excerpt {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.1rem;
+    }
+
+    .feat-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 11px;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      display: inline-block;
+    }
+
+    /* Article Grid */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 1.5rem;
+    }
+
+    .art-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .art-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .art-img {
+      height: 130px;
+      overflow: hidden;
+      background: var(--green-pale);
+    }
+
+    .art-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .art-img.c1 { background: var(--green-pale); }
+    .art-img.c2 { background: var(--yellow-light); }
+    .art-img.c3 { background: #FFF0F0; }
+    .art-img.c4 { background: #F0F4FF; }
+    .art-img.c5 { background: #FFF7ED; }
+    .art-img.c6 { background: #F5F0FF; }
+
+    .art-body { padding: 14px; }
+
+    .art-cat {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+
+    .art-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .art-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .art-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      margin-top: 8px;
+      cursor: pointer;
+      transition: gap var(--transition);
+    }
+
+    .art-read:hover { gap: 8px; }
+
+    /* ===========================
+       PAGINATION
+    =========================== */
+    .pagination {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .page-btn.active {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .page-btn:hover:not(.active) {
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+
+    /* ===========================
+       SIDEBAR
+    =========================== */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .sidebar-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    /* Popular List */
+    .popular-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .popular-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      cursor: pointer;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      transition: opacity var(--transition);
+    }
+
+    .popular-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .popular-item:first-child { padding-top: 0; }
+    .popular-item:hover { opacity: 0.75; }
+
+    .pop-num {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--green-light);
+      min-width: 28px;
+      line-height: 1;
+    }
+
+    .pop-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 3px;
+    }
+
+    .pop-meta {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* Tag Cloud */
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      border-radius: 99px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .tag:hover {
+      background: var(--green-light);
+      transform: translateY(-1px);
+    }
+
+    /* Newsletter */
+    .newsletter-card {
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      color: white;
+    }
+
+    .newsletter-card .nl-title {
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+
+    .newsletter-card .nl-desc {
+      font-size: 12px;
+      opacity: 0.85;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .newsletter-input {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      margin-bottom: 8px;
+      outline: none;
+      color: var(--text);
+    }
+
+    .newsletter-btn {
+      width: 100%;
+      background: var(--yellow);
+      color: var(--text);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 9px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .newsletter-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* ===========================
+       FOOTER
+    =========================== */
+    footer {
+      background: var(--text);
+      color: white;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .footer-logo span { color: var(--green); }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 3px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--green); }
+
+    .footer-copy {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===========================
+       RESPONSIVE — MOBILE
+    =========================== */
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 1rem;
+        height: 56px;
+      }
+
+      .nav-links { display: none; }
+
+      .page-header { padding: 2.5rem 1rem 2rem; }
+      .page-header h1 { font-size: 1.5rem; }
+
+      .filter-bar { padding: 0 1rem; }
+
+      .search-row { flex-direction: column; }
+      .sort-select { width: 100%; }
+
+      .main {
+        grid-template-columns: 1fr;
+        padding: 0 1rem 3rem;
+      }
+
+      .article-featured {
+        grid-template-columns: 1fr;
+      }
+
+      .feat-img { min-height: 160px; }
+
+      .articles-grid { grid-template-columns: 1fr; }
+
+      .sidebar { order: -1; }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem 1rem;
+        gap: 1rem;
+      }
+
+      .footer-links { flex-wrap: wrap; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======= NAVBAR ======= -->
+  <nav>
+    <a class="logo" href="index.html">
+      <div class="logo-icon">🍱</div>
+      <div class="logo-text">Kos<span>Bites</span></div>
+    </a>
+    <ul class="nav-links"><li><a href="index.html">Beranda</a></li><li><a href="katalog.html">Menu</a></li><li><a href="#">Paket</a></li><li><a href="arsip-artikel.html" class="active">Artikel</a></li><li><a href="history-transaksi.html">Pesanan</a></li></ul>
+    <div class="nav-actions">
+      <button class="btn-outline" onclick="window.location.href='login.html'">Masuk</button>
+      <button class="btn-green" onclick="window.location.href='keranjang.html'">🛒 Keranjang</button>
+    </div>
+  </nav>
+
+  <!-- ======= PAGE HEADER ======= -->
+  <div class="page-header">
+    <div class="eyebrow">Artikel & Tips</div>
+    <h1>Tips Makan Sehat & Hemat</h1>
+    <p>Kumpulan artikel seputar gizi, hemat budget, dan gaya hidup anak kos yang lebih baik.</p>
+  </div>
+
+  <!-- ======= FILTER BAR ======= -->
+  <div class="filter-bar">
+    <div class="search-row">
+      <div class="search-box">
+        <input type="text" placeholder="Cari artikel...">
+      </div>
+      <select class="sort-select">
+        <option>Terbaru</option>
+        <option>Terpopuler</option>
+        <option>Terlama</option>
+      </select>
+    </div>
+    <div class="chips">
+      <div class="chip active" onclick="setChip(this)">Semua</div>
+      <div class="chip" onclick="setChip(this)">Tips Makan Sehat</div>
+      <div class="chip" onclick="setChip(this)">Hemat Budget</div>
+      <div class="chip" onclick="setChip(this)">Gizi & Nutrisi</div>
+      <div class="chip" onclick="setChip(this)">Resep Mudah</div>
+      <div class="chip" onclick="setChip(this)">Gaya Hidup</div>
+    </div>
+  </div>
+
+  <!-- ======= MAIN CONTENT ======= -->
+  <div class="main">
+
+    <!-- ARTICLES COLUMN -->
+    <div class="articles-col">
+      <div class="result-info">Menampilkan <span>6</span> artikel dari <span>48</span> total</div>
+
+      <!-- Featured Article -->
+      <div class="article-featured" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">
+        <div class="feat-img">
+          <img src="img/close-up-hands-holding-bowl-salad.jpg" alt="Cara Atur Makan Sehat">
+        </div>
+        <div class="feat-body">
+          <div class="feat-badge">⭐ Artikel Pilihan</div>
+          <div class="feat-cat">Tips Makan Sehat</div>
+          <div class="feat-title">Cara Atur Makan Sehat dengan Budget di Bawah 30 Ribu per Hari</div>
+          <div class="feat-excerpt">Makan sehat gak harus mahal. Dengan sedikit perencanaan, kamu bisa tetap bergizi sambil tetap hemat di akhir bulan.</div>
+          <div class="feat-meta">
+            <span>5 Mei 2025</span>
+            <span class="meta-dot"></span>
+            <span>4 menit baca</span>
+            <span class="meta-dot"></span>
+            <span>🔥 1.2K dibaca</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Article Grid -->
+      <div class="articles-grid">
+
+        <div class="art-card">
+          <div class="art-img c2"><img src="img/smart-beautiful-casual-asian-woman-enjoy-reading-book-weekend-pink-sweater-home-background.jpg" alt="Hemat Pengeluaran Makan"></div>
+          <div class="art-body">
+            <div class="art-cat">Hemat Budget</div>
+            <div class="art-title">5 Cara Hemat Pengeluaran Makan Selama Kuliah</div>
+            <div class="art-meta">
+              <span>1 Mei 2025</span>
+              <span class="meta-dot"></span>
+              <span>3 menit</span>
+            </div>
+            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
+          </div>
+        </div>
+
+        <div class="art-card">
+          <div class="art-img c1"><img src="img/elevated-view-thai-food-with-person-writing-clipboard-with-pen.jpg" alt="Menu Rumahan vs Makanan Instan"></div>
+          <div class="art-body">
+            <div class="art-cat">Gizi & Nutrisi</div>
+            <div class="art-title">Kenapa Menu Rumahan Lebih Baik dari Makanan Instan?</div>
+            <div class="art-meta">
+              <span>28 Apr 2025</span>
+              <span class="meta-dot"></span>
+              <span>3 menit</span>
+            </div>
+            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
+          </div>
+        </div>
+
+        <div class="art-card">
+          <div class="art-img c3"><img src="img/close-up-hands-holding-notebook.jpg" alt="Resep Simpel di Kos"></div>
+          <div class="art-body">
+            <div class="art-cat">Resep Mudah</div>
+            <div class="art-title">3 Resep Simpel yang Bisa Dimasak di Kos Tanpa Kompor Besar</div>
+            <div class="art-meta">
+              <span>22 Apr 2025</span>
+              <span class="meta-dot"></span>
+              <span>5 menit</span>
+            </div>
+            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
+          </div>
+        </div>
+
+        <div class="art-card">
+          <div class="art-img c4"><img src="img/woman-east-fast-food-from-delivery-bed-bedroom-home.jpg" alt="Pola Makan dan Kualitas Tidur"></div>
+          <div class="art-body">
+            <div class="art-cat">Gaya Hidup</div>
+            <div class="art-title">Hubungan Pola Makan & Kualitas Tidur Mahasiswa</div>
+            <div class="art-meta">
+              <span>18 Apr 2025</span>
+              <span class="meta-dot"></span>
+              <span>4 menit</span>
+            </div>
+            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
+          </div>
+        </div>
+
+        <div class="art-card">
+          <div class="art-img c5"><img src="img/top-view-hand-holding-yogurt-bottle.jpg" alt="Tips Belanja Mingguan"></div>
+          <div class="art-body">
+            <div class="art-cat">Hemat Budget</div>
+            <div class="art-title">Tips Belanja Bahan Makanan Mingguan Biar Gak Boros</div>
+            <div class="art-meta">
+              <span>14 Apr 2025</span>
+              <span class="meta-dot"></span>
+              <span>3 menit</span>
+            </div>
+            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
+          </div>
+        </div>
+
+        <div class="art-card">
+          <div class="art-img c6"><img src="img/common-food-allergens-people.jpg" alt="Protein Murah untuk Anak Kos"></div>
+          <div class="art-body">
+            <div class="art-cat">Gizi & Nutrisi</div>
+            <div class="art-title">Protein Murah Meriah untuk Anak Kos yang Aktif Kuliah</div>
+            <div class="art-meta">
+              <span>10 Apr 2025</span>
+              <span class="meta-dot"></span>
+              <span>4 menit</span>
+            </div>
+            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
+          </div>
+        </div>
+
+      </div><!-- end articles-grid -->
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="page-btn">‹</button>
+        <button class="page-btn active" onclick="setPage(this)">1</button>
+        <button class="page-btn" onclick="setPage(this)">2</button>
+        <button class="page-btn" onclick="setPage(this)">3</button>
+        <button class="page-btn" onclick="setPage(this)">4</button>
+        <button class="page-btn">›</button>
+      </div>
+
+    </div><!-- end articles-col -->
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- Popular -->
+      <div class="sidebar-card">
+        <div class="sidebar-title">Artikel Terpopuler</div>
+        <div class="popular-list">
+          <div class="popular-item">
+            <div class="pop-num">01</div>
+            <div>
+              <div class="pop-title">Cara Atur Makan Sehat Budget 30 Ribu</div>
+              <div class="pop-meta">1.2K dibaca</div>
+            </div>
+          </div>
+          <div class="popular-item">
+            <div class="pop-num">02</div>
+            <div>
+              <div class="pop-title">5 Cara Hemat Pengeluaran Makan Kuliah</div>
+              <div class="pop-meta">980 dibaca</div>
+            </div>
+          </div>
+          <div class="popular-item">
+            <div class="pop-num">03</div>
+            <div>
+              <div class="pop-title">Menu Rumahan vs Makanan Instan</div>
+              <div class="pop-meta">754 dibaca</div>
+            </div>
+          </div>
+          <div class="popular-item">
+            <div class="pop-num">04</div>
+            <div>
+              <div class="pop-title">Protein Murah untuk Anak Kos Aktif</div>
+              <div class="pop-meta">612 dibaca</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tag Cloud -->
+      <div class="sidebar-card">
+        <div class="sidebar-title">Topik</div>
+        <div class="tag-cloud">
+          <div class="tag">Sehat</div>
+          <div class="tag">Hemat</div>
+          <div class="tag">Gizi</div>
+          <div class="tag">Resep</div>
+          <div class="tag">Mahasiswa</div>
+          <div class="tag">Meal Plan</div>
+          <div class="tag">Protein</div>
+          <div class="tag">Sayuran</div>
+          <div class="tag">Budget</div>
+          <div class="tag">Tidur</div>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="newsletter-card">
+        <div class="nl-title">Dapet Tips Tiap Minggu!</div>
+        <div class="nl-desc">Langganan newsletter KosBites dan dapet tips makan hemat setiap minggu langsung ke emailmu.</div>
+        <input class="newsletter-input" type="email" placeholder="email@kamu.com">
+        <button class="newsletter-btn">Langganan Gratis →</button>
+      </div>
+
+    </div><!-- end sidebar -->
+
+  </div><!-- end main -->
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <div>
+      <div class="footer-logo">Kos<span>Bites</span> 🍱</div>
+      <div class="footer-tagline">Makan enak tanpa ribet.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#">Tentang Kami</a>
+      <a href="#">Kebijakan Privasi</a>
+      <a href="#">Bantuan</a>
+      <a href="#">Kontak</a>
+    </div>
+    <div class="footer-copy">© 2025 KosBites</div>
+  </footer>
+
+  <!-- ======= JAVASCRIPT ======= -->
+  <script>
+    // Filter chip active state
+    function setChip(el) {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // Pagination active state
+    function setPage(el) {
+      document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

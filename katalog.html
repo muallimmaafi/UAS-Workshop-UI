@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katalog Menu — KosBites</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --green: #22C55E;
+      --green-dark: #16A34A;
+      --green-light: #DCFCE7;
+      --green-pale: #F0FDF4;
+      --yellow: #F8C536;
+      --yellow-light: #FEF9C3;
+      --yellow-dark: #D97706;
+      --text: #1A2E1A;
+      --muted: #6B7F6B;
+      --border: #E2F0E2;
+      --off: #F7FDF7;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --t: 0.28s cubic-bezier(0.4, 0, 0.2, 1)
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 253, 247, .9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: slideDown .5s ease both
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--green);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px
+    }
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text)
+    }
+
+    .logo-text span {
+      color: var(--green)
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.75rem;
+      list-style: none
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--t)
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: var(--green-dark);
+      font-weight: 700
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px
+    }
+
+    .btn-outline {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green-dark);
+      background: none;
+      border: 1.5px solid var(--green);
+      border-radius: 99px;
+      padding: 7px 18px;
+      cursor: pointer
+    }
+
+    .btn-green {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--green);
+      border: none;
+      border-radius: 99px;
+      padding: 7px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .cart-badge {
+      background: var(--yellow);
+      color: var(--text);
+      font-size: 10px;
+      border-radius: 99px;
+      padding: 1px 7px;
+      font-weight: 800
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, var(--green-pale), var(--yellow-light));
+      border-bottom: 1px solid var(--border);
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+      animation: fadeUp .5s ease both
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 5px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green-dark);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 1rem
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: .5rem;
+      letter-spacing: -.02em
+    }
+
+    .page-header p {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0 auto
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem
+    }
+
+    .filter-bar {
+      padding: 1.75rem 0 0;
+      animation: fadeUp .5s .1s ease both
+    }
+
+    .search-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 1rem;
+      align-items: center
+    }
+
+    .search-box {
+      flex: 1;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 12px rgba(34, 197, 94, .05)
+    }
+
+    .search-box:focus-within {
+      border-color: var(--green)
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: none;
+      flex: 1
+    }
+
+    .search-box input::placeholder {
+      color: var(--muted)
+    }
+
+    .sort-select {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .75rem 1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      outline: none
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem
+    }
+
+    .chip {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none
+    }
+
+    .chip.active {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green)
+    }
+
+    .chip:hover:not(.active) {
+      border-color: var(--green);
+      color: var(--green-dark)
+    }
+
+    .result-info {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      font-weight: 500
+    }
+
+    .result-info span {
+      color: var(--green-dark);
+      font-weight: 700
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding-bottom: 4rem;
+      animation: fadeUp .5s .2s ease both
+    }
+
+    .menu-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform var(--t), box-shadow var(--t)
+    }
+
+    .menu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(34, 197, 94, .12)
+    }
+
+    .menu-img {
+      height: 150px;
+      overflow: hidden;
+      position: relative
+    }
+
+    .menu-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .menu-img.c1 {
+      background: var(--green-pale)
+    }
+
+    .menu-img.c2 {
+      background: var(--yellow-light)
+    }
+
+    .menu-img.c3 {
+      background: #FFF0F0
+    }
+
+    .menu-img.c4 {
+      background: #F0F4FF
+    }
+
+    .menu-img.c5 {
+      background: #FFF7ED
+    }
+
+    .menu-img.c6 {
+      background: #F5F0FF
+    }
+
+    .badge-new {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--green);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      border-radius: 99px;
+      padding: 3px 8px;
+      letter-spacing: .05em;
+      text-transform: uppercase
+    }
+
+    .badge-hot {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--yellow);
+      color: var(--text);
+      font-size: 9px;
+      font-weight: 800;
+      border-radius: 99px;
+      padding: 3px 8px;
+      letter-spacing: .05em;
+      text-transform: uppercase
+    }
+
+    .menu-body {
+      padding: 14px
+    }
+
+    .menu-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 3px
+    }
+
+    .menu-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.4
+    }
+
+    .menu-desc {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      line-height: 1.5
+    }
+
+    .menu-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .menu-price {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--green-dark)
+    }
+
+    .add-btn {
+      width: 30px;
+      height: 30px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, transform .15s
+    }
+
+    .add-btn:hover {
+      background: var(--green-dark);
+      transform: scale(1.1)
+    }
+
+    footer {
+      background: var(--text);
+      color: #fff;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem
+    }
+
+    .footer-logo {
+      font-size: 18px;
+      font-weight: 800
+    }
+
+    .footer-logo span {
+      color: var(--green)
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .45);
+      margin-top: 3px
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .5);
+      text-decoration: none
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .3)
+    }
+
+    @media(max-width:768px) {
+      nav {
+        padding: 0 1rem
+      }
+
+      .nav-links {
+        display: none
+      }
+
+      .wrap {
+        padding: 0 1rem
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem 1rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a class="logo" href="index.html">
+      <div class="logo-icon">🍱</div>
+      <div class="logo-text">Kos<span>Bites</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="katalog.html" class="active">Menu</a></li>
+      <li><a href="#">Paket</a></li>
+      <li><a href="arsip-artikel.html">Artikel</a></li>
+      <li><a href="history-transaksi.html">Pesanan</a></li>
+    </ul>
+    <div class="nav-actions"><button class="btn-outline"
+        onclick="window.location.href='login.html'">Masuk</button><button class="btn-green"
+        onclick="window.location.href='keranjang.html'">🛒 Keranjang <span class="cart-badge">3</span></button></div>
+  </nav>
+  <div class="page-header">
+    <div class="eyebrow">🍽️ Katalog Menu</div>
+    <h1>Pilih Menu Favoritmu</h1>
+    <p>Menu rumahan segar, berganti setiap hari, harga terjangkau untuk anak kos.</p>
+  </div>
+  <div class="wrap">
+    <div class="filter-bar">
+      <div class="search-row">
+        <div class="search-box"><span>🔍</span><input type="text" placeholder="Cari menu..."></div>
+        <select class="sort-select">
+          <option>Terpopuler</option>
+          <option>Harga Terendah</option>
+          <option>Harga Tertinggi</option>
+          <option>Terbaru</option>
+        </select>
+      </div>
+      <div class="chips">
+        <div class="chip active" onclick="setChip(this)">Semua</div>
+        <div class="chip" onclick="setChip(this)">Ayam</div>
+        <div class="chip" onclick="setChip(this)">Daging</div>
+        <div class="chip" onclick="setChip(this)">Sayuran</div>
+        <div class="chip" onclick="setChip(this)">Telur</div>
+        <div class="chip" onclick="setChip(this)">Vegetarian</div>
+        <div class="chip" onclick="setChip(this)">Pedas</div>
+      </div>
+    </div>
+    <div class="result-info">Menampilkan <span>12</span> menu</div>
+    <div class="menu-grid">
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c1"><span class="badge-hot">🔥 Terlaris</span><img src="img/ayam-geprek.jpg"
+            alt="Ayam Geprek Sambal Ijo"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Ayam</div>
+          <div class="menu-name">Ayam Geprek Sambal Ijo</div>
+          <div class="menu-desc">Ayam goreng crispy dengan sambal ijo segar, disajikan dengan nasi putih hangat.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 18.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c2"><img src="img/semur-daging.jpg" alt="Semur Daging Kentang"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Daging</div>
+          <div class="menu-name">Semur Daging Kentang</div>
+          <div class="menu-desc">Daging sapi empuk dimasak dengan kecap manis dan kentang, rasa rumahan banget.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 22.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c3"><span class="badge-new">Baru</span><img src="img/tumis-brokoli.jpg"
+            alt="Tumis Brokoli Tempe"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Vegetarian</div>
+          <div class="menu-name">Tumis Brokoli Tahu</div>
+          <div class="menu-desc">Brokoli segar ditumis bersama tahu goreng, bumbu bawang putih dan oyster sauce.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 14.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c4"><img src="img/telur-balado.jpg" alt="Telur Balado Nasi"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Telur</div>
+          <div class="menu-name">Telur Balado + Nasi</div>
+          <div class="menu-desc">Telur rebus dibalut sambal balado pedas manis, porsi kenyang harga bersahabat.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 12.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c5"><img src="img/ayam-kecap.jpg" alt="Ayam Kecap Manis"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Ayam</div>
+          <div class="menu-name">Ayam Kecap Manis</div>
+          <div class="menu-desc">Potongan ayam dimasak dengan kecap manis, bawang merah, dan cabai hijau.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 17.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c6"><img src="img/ikan-tongkol.jpg" alt="Ikan Tongkol Bumbu Kuning"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Ikan</div>
+          <div class="menu-name">Ikan Tongkol Bumbu Kuning</div>
+          <div class="menu-desc">Ikan tongkol segar dimasak dengan bumbu kuning khas Jawa Timur yang kaya rempah.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 16.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c1"><img src="img/sayur-asem.jpg" alt="Sayur Asem Segar"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Sayuran</div>
+          <div class="menu-name">Sayur Asem Segar</div>
+          <div class="menu-desc">Sayur asem dengan berbagai sayuran segar, kuah bening segar dan menyegarkan.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 10.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c2"><span class="badge-hot">🔥 Terlaris</span><img src="img/rendang-sapi.jpg"
+            alt="Rendang Sapi Mini"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Daging</div>
+          <div class="menu-name">Rendang Sapi Mini</div>
+          <div class="menu-desc">Rendang sapi autentik dengan bumbu rempah lengkap, dimasak hingga meresap sempurna.
+          </div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 25.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c3"><img src="img/orak-arik.jpg" alt="Orak-Arik Telur Tomat"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Telur</div>
+          <div class="menu-name">Orak-Arik Telur Tomat</div>
+          <div class="menu-desc">Telur orak-arik dengan tomat segar dan daun bawang, simpel tapi enak.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 11.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c4"><img src="img/ayam-rica.jpg" alt="Ayam Rica-Rica"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Pedas</div>
+          <div class="menu-name">Ayam Rica-Rica</div>
+          <div class="menu-desc">Ayam dimasak dengan bumbu rica-rica pedas dari Manado, cocok buat pecinta pedas.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 20.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c5"><img src="img/tempe-orek.jpg" alt="Tempe Orek Kering"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Vegetarian</div>
+          <div class="menu-name">Tempe Orek Kering</div>
+          <div class="menu-desc">Tempe goreng kering dengan bumbu manis pedas, tahan lama dan tetap enak.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 10.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="window.location.href='detail-menu.html'">
+        <div class="menu-img c6"><span class="badge-new">Baru</span><img src="img/sop-ayam.jpg"
+            alt="Sop Ayam Bening"></div>
+        <div class="menu-body">
+          <div class="menu-tag">Ayam</div>
+          <div class="menu-name">Sop Ayam Bening</div>
+          <div class="menu-desc">Sop ayam bening dengan wortel, kentang, dan daun seledri, menyehatkan dan
+            mengenyangkan.</div>
+          <div class="menu-footer">
+            <div class="menu-price">Rp 16.000</div><button class="add-btn">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-logo">Kos<span>Bites</span> 🍱</div>
+      <div class="footer-tagline">Makan enak tanpa ribet.</div>
+    </div>
+    <div class="footer-links"><a href="#">Tentang Kami</a><a href="#">Kebijakan Privasi</a><a href="#">Bantuan</a><a
+        href="#">Kontak</a></div>
+    <div class="footer-copy">© 2025 KosBites</div>
+  </footer>
+  <script>function setChip(el) { document.querySelectorAll('.chip').forEach(c => c.classList.remove('active')); el.classList.add('active') }</script>
+</body>
+
+</html>

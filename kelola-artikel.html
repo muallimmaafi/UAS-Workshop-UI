@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Artikel — KosBites Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --green: #22C55E;
+      --green-dark: #16A34A;
+      --green-light: #DCFCE7;
+      --green-pale: #F0FDF4;
+      --yellow: #F8C536;
+      --yellow-light: #FEF9C3;
+      --yellow-dark: #D97706;
+      --text: #1A2E1A;
+      --muted: #6B7F6B;
+      --border: #E2F0E2;
+      --off: #F7FDF7;
+      --sidebar: #1A2E1A;
+      --radius: 14px;
+      --radius-sm: 9px;
+      --t: 0.25s cubic-bezier(0.4, 0, 0.2, 1)
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased
+    }
+
+    .sidebar {
+      width: 230px;
+      background: var(--sidebar);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 50
+    }
+
+    .sidebar-logo {
+      padding: 1.5rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px
+    }
+
+    .logo-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff
+    }
+
+    .logo-text span {
+      color: var(--green)
+    }
+
+    .sidebar-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .3);
+      padding: .1rem 0 0 .25rem
+    }
+
+    .sidebar-menu {
+      flex: 1;
+      padding: 1rem 0
+    }
+
+    .menu-section {
+      margin-bottom: 1.5rem
+    }
+
+    .menu-section-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .3);
+      padding: .5rem 1.25rem;
+      margin-bottom: .25rem
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: .65rem 1.25rem;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, .6);
+      cursor: pointer;
+      transition: all var(--t);
+      border-left: 3px solid transparent;
+      text-decoration: none
+    }
+
+    .menu-item:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .menu-item.active {
+      color: #fff;
+      background: rgba(34, 197, 94, .15);
+      border-left-color: var(--green)
+    }
+
+    .menu-item .icon {
+      font-size: 15px;
+      width: 20px;
+      text-align: center
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .admin-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .admin-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px
+    }
+
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .admin-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .admin-role {
+      font-size: 10px;
+      color: rgba(255, 255, 255, .4)
+    }
+
+    .main {
+      margin-left: 230px;
+      flex: 1;
+      display: flex;
+      flex-direction: column
+    }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40
+    }
+
+    .topbar-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text)
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--t)
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark)
+    }
+
+    .content {
+      padding: 2rem
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .65rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .search-box:focus-within {
+      border-color: var(--green)
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: none;
+      flex: 1
+    }
+
+    .search-box input::placeholder {
+      color: var(--muted)
+    }
+
+    .filter-select {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .65rem 1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      outline: none
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 0;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 1.5rem
+    }
+
+    .tab {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: .65rem 1.25rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1.5px;
+      transition: color .2s, border-color .2s
+    }
+
+    .tab.active {
+      color: var(--green-dark);
+      border-bottom-color: var(--green)
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden
+    }
+
+    thead {
+      background: var(--off)
+    }
+
+    th {
+      padding: .75rem 1rem;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: left;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border)
+    }
+
+    td {
+      padding: .85rem 1rem;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    tr:hover td {
+      background: var(--green-pale)
+    }
+
+    .art-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      flex-shrink: 0
+    }
+
+    .art-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .art-info {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .art-title-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .art-cat {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 99px;
+      padding: 4px 10px;
+      white-space: nowrap
+    }
+
+    .badge-published {
+      background: var(--green-light);
+      color: var(--green-dark)
+    }
+
+    .badge-draft {
+      background: var(--yellow-light);
+      color: var(--yellow-dark)
+    }
+
+    .badge-archived {
+      background: #F3F4F6;
+      color: #6B7280
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px
+    }
+
+    .btn-action {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text)
+    }
+
+    .btn-action:hover {
+      border-color: var(--green);
+      color: var(--green-dark)
+    }
+
+    .btn-action.danger:hover {
+      border-color: #EF4444;
+      color: #EF4444
+    }
+
+    .pagination {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 1.25rem
+    }
+
+    .page-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s
+    }
+
+    .page-btn.active {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green)
+    }
+
+    .page-btn:hover:not(.active) {
+      border-color: var(--green);
+      color: var(--green-dark)
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .4);
+      z-index: 200;
+      align-items: center;
+      justify-content: center
+    }
+
+    .modal-overlay.show {
+      display: flex
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 1.25rem
+    }
+
+    .form-group {
+      margin-bottom: 1rem
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .4rem;
+      display: block
+    }
+
+    .form-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s
+    }
+
+    .form-input:focus {
+      border-color: var(--green)
+    }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 100px
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 1.25rem
+    }
+
+    .btn-cancel {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif
+    }
+
+    @media(max-width:900px) {
+      .sidebar {
+        display: none
+      }
+
+      .main {
+        margin-left: 0
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-row">
+        <div class="logo-icon">🍱</div>
+        <div class="logo-text">Kos<span>Bites</span></div>
+      </div>
+      <div class="sidebar-label">Admin Panel</div>
+    </div>
+    <nav class="sidebar-menu">
+      <div class="menu-section">
+        <div class="menu-section-label">Utama</div><a class="menu-item" href="dashboard.html"><span
+            class="icon">📊</span>Dashboard</a><a class="menu-item" href="kelola-transaksi.html"><span
+            class="icon">💳</span>Kelola Transaksi</a>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-label">Konten</div><a class="menu-item" href="kelola-produk.html"><span
+            class="icon">🍽️</span>Kelola Produk</a><a class="menu-item active" href="kelola-artikel.html"><span
+            class="icon">📰</span>Kelola Artikel</a>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-label">Pengguna</div><a class="menu-item" href="kelola-pengguna.html"><span
+            class="icon">👥</span>Kelola Pengguna</a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-chip">
+        <div class="admin-avatar"><img src="img/admin.jpg" alt="Admin"></div>
+        <div>
+          <div class="admin-name">Admin KosBites</div>
+          <div class="admin-role">Super Admin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">📰 Kelola Artikel</div>
+      <button class="btn-primary" onclick="document.getElementById('modalTambah').classList.add('show')">+ Tulis
+        Artikel</button>
+    </div>
+    <div class="content">
+      <div class="filter-row">
+        <div class="search-box"><span>🔍</span><input type="text" placeholder="Cari judul artikel..."></div>
+        <select class="filter-select">
+          <option>Semua Kategori</option>
+          <option>Tips Makan Sehat</option>
+          <option>Hemat Budget</option>
+          <option>Gizi & Nutrisi</option>
+          <option>Resep Mudah</option>
+          <option>Gaya Hidup</option>
+        </select>
+        <select class="filter-select">
+          <option>Semua Status</option>
+          <option>Dipublikasikan</option>
+          <option>Draft</option>
+          <option>Diarsipkan</option>
+        </select>
+      </div>
+      <div class="tab-row">
+        <div class="tab active" onclick="setTab(this)">Semua (12)</div>
+        <div class="tab" onclick="setTab(this)">Dipublikasikan (9)</div>
+        <div class="tab" onclick="setTab(this)">Draft (2)</div>
+        <div class="tab" onclick="setTab(this)">Diarsipkan (1)</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Artikel</th>
+            <th>Kategori</th>
+            <th>Penulis</th>
+            <th>Dibaca</th>
+            <th>Status</th>
+            <th>Tanggal</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="art-info">
+                <div class="art-thumb" style="background:var(--green-pale)"><img src="img/close-up-hands-holding-bowl-salad.jpg"
+                    alt="Makan Sehat Budget 30 Ribu"></div>
+                <div>
+                  <div class="art-title-text">Cara Atur Makan Sehat Budget 30 Ribu</div>
+                  <div class="art-cat">Tips Makan Sehat</div>
+                </div>
+              </div>
+            </td>
+            <td>Tips Makan Sehat</td>
+            <td>Sari Dewi</td>
+            <td>1.2K</td>
+            <td><span class="badge badge-published">Dipublikasikan</span></td>
+            <td>5 Mei 2025</td>
+            <td>
+              <div class="actions"><button class="btn-action">Edit</button><button
+                  class="btn-action danger">Hapus</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="art-info">
+                <div class="art-thumb" style="background:var(--yellow-light)"><img src="img/smart-beautiful-casual-asian-woman-enjoy-reading-book-weekend-pink-sweater-home-background.jpg"
+                    alt="Hemat Pengeluaran Makan"></div>
+                <div>
+                  <div class="art-title-text">5 Cara Hemat Pengeluaran Makan Kuliah</div>
+                  <div class="art-cat">Hemat Budget</div>
+                </div>
+              </div>
+            </td>
+            <td>Hemat Budget</td>
+            <td>Rudi Hartono</td>
+            <td>980</td>
+            <td><span class="badge badge-published">Dipublikasikan</span></td>
+            <td>1 Mei 2025</td>
+            <td>
+              <div class="actions"><button class="btn-action">Edit</button><button
+                  class="btn-action danger">Hapus</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="art-info">
+                <div class="art-thumb" style="background:#F0F4FF"><img src="img/woman-east-fast-food-from-delivery-bed-bedroom-home.jpg"
+                    alt="Pola Makan dan Tidur"></div>
+                <div>
+                  <div class="art-title-text">Hubungan Pola Makan & Kualitas Tidur</div>
+                  <div class="art-cat">Gaya Hidup</div>
+                </div>
+              </div>
+            </td>
+            <td>Gaya Hidup</td>
+            <td>Sari Dewi</td>
+            <td>612</td>
+            <td><span class="badge badge-published">Dipublikasikan</span></td>
+            <td>18 Apr 2025</td>
+            <td>
+              <div class="actions"><button class="btn-action">Edit</button><button
+                  class="btn-action danger">Hapus</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="art-info">
+                <div class="art-thumb" style="background:#FFF7ED"><img src="img/top-view-hand-holding-yogurt-bottle.jpg"
+                    alt="Tips Belanja Mingguan"></div>
+                <div>
+                  <div class="art-title-text">Tips Belanja Bahan Makanan Mingguan</div>
+                  <div class="art-cat">Hemat Budget</div>
+                </div>
+              </div>
+            </td>
+            <td>Hemat Budget</td>
+            <td>Rudi Hartono</td>
+            <td>488</td>
+            <td><span class="badge badge-draft">Draft</span></td>
+            <td>14 Apr 2025</td>
+            <td>
+              <div class="actions"><button class="btn-action">Edit</button><button
+                  class="btn-action">Publish</button><button class="btn-action danger">Hapus</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="art-info">
+                <div class="art-thumb" style="background:#F5F0FF"><img src="img/common-food-allergens-people.jpg"
+                    alt="Protein Murah Anak Kos"></div>
+                <div>
+                  <div class="art-title-text">Protein Murah untuk Anak Kos Aktif</div>
+                  <div class="art-cat">Gizi & Nutrisi</div>
+                </div>
+              </div>
+            </td>
+            <td>Gizi & Nutrisi</td>
+            <td>Sari Dewi</td>
+            <td>320</td>
+            <td><span class="badge badge-draft">Draft</span></td>
+            <td>10 Apr 2025</td>
+            <td>
+              <div class="actions"><button class="btn-action">Edit</button><button
+                  class="btn-action">Publish</button><button class="btn-action danger">Hapus</button></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="art-info">
+                <div class="art-thumb" style="background:#FFF0F0"><img src="img/close-up-hands-holding-notebook.jpg"
+                    alt="Resep Simpel di Kos"></div>
+                <div>
+                  <div class="art-title-text">3 Resep Simpel untuk Anak Kos</div>
+                  <div class="art-cat">Resep Mudah</div>
+                </div>
+              </div>
+            </td>
+            <td>Resep Mudah</td>
+            <td>Rudi Hartono</td>
+            <td>754</td>
+            <td><span class="badge badge-archived">Diarsipkan</span></td>
+            <td>22 Mar 2025</td>
+            <td>
+              <div class="actions"><button class="btn-action">Aktifkan</button><button
+                  class="btn-action danger">Hapus</button></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button class="page-btn">‹</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn" onclick="setPage(this)">2</button>
+        <button class="page-btn">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TAMBAH -->
+  <div class="modal-overlay" id="modalTambah">
+    <div class="modal">
+      <div class="modal-title">✍️ Tulis Artikel Baru</div>
+      <div class="form-group"><label class="form-label">Judul Artikel</label><input class="form-input" type="text"
+          placeholder="Masukkan judul artikel..."></div>
+      <div class="form-group"><label class="form-label">Kategori</label><select class="form-input">
+          <option>Tips Makan Sehat</option>
+          <option>Hemat Budget</option>
+          <option>Gizi & Nutrisi</option>
+          <option>Resep Mudah</option>
+          <option>Gaya Hidup</option>
+        </select></div>
+      <div class="form-group"><label class="form-label">Penulis</label><input class="form-input" type="text"
+          placeholder="Nama penulis"></div>
+      <div class="form-group"><label class="form-label">Konten Artikel</label><textarea class="form-input"
+          placeholder="Tulis konten artikel di sini..."></textarea></div>
+      <div class="form-group"><label class="form-label">Thumbnail</label><input class="form-input" type="file"
+          accept="image/*"></div>
+      <div class="modal-footer">
+        <button class="btn-cancel"
+          onclick="document.getElementById('modalTambah').classList.remove('show')">Batal</button>
+        <button class="btn-primary">Simpan Draft</button>
+        <button class="btn-primary" style="background:var(--green-dark)">Publikasikan</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setTab(el) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); el.classList.add('active') }
+    function setPage(el) { document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active')); el.classList.add('active') }
+    document.getElementById('modalTambah').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('show') })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin — KosBites</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --green: #22C55E;
+      --green-dark: #16A34A;
+      --green-light: #DCFCE7;
+      --green-pale: #F0FDF4;
+      --yellow: #F8C536;
+      --yellow-light: #FEF9C3;
+      --yellow-dark: #D97706;
+      --text: #1A2E1A;
+      --muted: #6B7F6B;
+      --border: #E2F0E2;
+      --off: #F7FDF7;
+      --sidebar: #1A2E1A;
+      --radius: 14px;
+      --radius-sm: 9px;
+      --t: 0.25s cubic-bezier(0.4, 0, 0.2, 1)
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--off);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 230px;
+      background: var(--sidebar);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 50
+    }
+
+    .sidebar-logo {
+      padding: 1.5rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .sidebar-logo .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px
+    }
+
+    .logo-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff
+    }
+
+    .logo-text span {
+      color: var(--green)
+    }
+
+    .sidebar-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .3);
+      padding: .1rem 0 0 .25rem
+    }
+
+    .sidebar-menu {
+      flex: 1;
+      padding: 1rem 0
+    }
+
+    .menu-section {
+      margin-bottom: 1.5rem
+    }
+
+    .menu-section-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .3);
+      padding: .5rem 1.25rem;
+      margin-bottom: .25rem
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: .65rem 1.25rem;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, .6);
+      cursor: pointer;
+      transition: all var(--t);
+      border-left: 3px solid transparent;
+      text-decoration: none
+    }
+
+    .menu-item:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .menu-item.active {
+      color: #fff;
+      background: rgba(34, 197, 94, .15);
+      border-left-color: var(--green)
+    }
+
+    .menu-item .icon {
+      font-size: 15px;
+      width: 20px;
+      text-align: center
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .admin-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .admin-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px
+    }
+
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .admin-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .admin-role {
+      font-size: 10px;
+      color: rgba(255, 255, 255, .4)
+    }
+
+    /* MAIN */
+    .main {
+      margin-left: 230px;
+      flex: 1;
+      display: flex;
+      flex-direction: column
+    }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40
+    }
+
+    .topbar-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text)
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .notif-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      position: relative
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      border: 2px solid #fff
+    }
+
+    .content {
+      padding: 2rem;
+      flex: 1
+    }
+
+    /* STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 2rem
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      transition: box-shadow var(--t)
+    }
+
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(34, 197, 94, .08)
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: .75rem
+    }
+
+    .stat-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px
+    }
+
+    .stat-icon-box.green {
+      background: var(--green-pale)
+    }
+
+    .stat-icon-box.yellow {
+      background: var(--yellow-light)
+    }
+
+    .stat-icon-box.blue {
+      background: #EFF6FF
+    }
+
+    .stat-icon-box.purple {
+      background: #F5F0FF
+    }
+
+    .stat-badge {
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 99px;
+      padding: 3px 8px
+    }
+
+    .stat-badge.up {
+      background: var(--green-light);
+      color: var(--green-dark)
+    }
+
+    .stat-badge.down {
+      background: #FEE2E2;
+      color: #DC2626
+    }
+
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.02em;
+      margin-bottom: 3px
+    }
+
+    .stat-lbl {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    /* CHARTS AREA */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 14px;
+      margin-bottom: 2rem
+    }
+
+    .chart-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem
+    }
+
+    .chart-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text)
+    }
+
+    .chart-select {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      color: var(--text);
+      cursor: pointer;
+      outline: none
+    }
+
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 140px
+    }
+
+    .bar-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px
+    }
+
+    .bar {
+      width: 100%;
+      border-radius: 6px 6px 0 0;
+      background: var(--green-light);
+      transition: height var(--t)
+    }
+
+    .bar.active {
+      background: var(--green)
+    }
+
+    .bar-label {
+      font-size: 9px;
+      color: var(--muted);
+      font-weight: 600
+    }
+
+    .bar-val {
+      font-size: 9px;
+      color: var(--text);
+      font-weight: 700
+    }
+
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem
+    }
+
+    .donut {
+      position: relative;
+      width: 110px;
+      height: 110px
+    }
+
+    .donut svg {
+      transform: rotate(-90deg)
+    }
+
+    .donut-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center
+    }
+
+    .donut-center-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text)
+    }
+
+    .donut-center-lbl {
+      font-size: 9px;
+      color: var(--muted)
+    }
+
+    .donut-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    .legend-lbl {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    .legend-val {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      margin-left: auto
+    }
+
+    /* BOTTOM ROW */
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text)
+    }
+
+    .see-all {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .trx-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .trx-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0
+    }
+
+    .trx-emoji {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px
+    }
+
+    .trx-emoji img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .trx-info {
+      flex: 1
+    }
+
+    .trx-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .trx-sub {
+      font-size: 10px;
+      color: var(--muted)
+    }
+
+    .trx-amount {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--green-dark)
+    }
+
+    .badge-sm {
+      font-size: 9px;
+      font-weight: 700;
+      border-radius: 99px;
+      padding: 3px 8px
+    }
+
+    .badge-success {
+      background: var(--green-light);
+      color: var(--green-dark)
+    }
+
+    .badge-pending {
+      background: var(--yellow-light);
+      color: var(--yellow-dark)
+    }
+
+    .menu-pop-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .menu-pop-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0
+    }
+
+    .menu-rank {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--green-light);
+      min-width: 24px
+    }
+
+    .menu-info {
+      flex: 1
+    }
+
+    .menu-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .menu-sold {
+      font-size: 10px;
+      color: var(--muted)
+    }
+
+    .menu-rev {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green-dark)
+    }
+
+    @media(max-width:900px) {
+      .sidebar {
+        display: none
+      }
+
+      .main {
+        margin-left: 0
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .charts-row,
+      .bottom-row {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-row">
+        <div class="logo-icon">🍱</div>
+        <div class="logo-text">Kos<span>Bites</span></div>
+      </div>
+      <div class="sidebar-label">Admin Panel</div>
+    </div>
+    <nav class="sidebar-menu">
+      <div class="menu-section">
+        <div class="menu-section-label">Utama</div>
+        <a class="menu-item active" href="dashboard.html"><span class="icon">📊</span>Dashboard</a>
+        <a class="menu-item" href="kelola-transaksi.html"><span class="icon">💳</span>Kelola Transaksi</a>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-label">Konten</div>
+        <a class="menu-item" href="kelola-produk.html"><span class="icon">🍽️</span>Kelola Produk</a>
+        <a class="menu-item" href="kelola-artikel.html"><span class="icon">📰</span>Kelola Artikel</a>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-label">Pengguna</div>
+        <a class="menu-item" href="kelola-pengguna.html"><span class="icon">👥</span>Kelola Pengguna</a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-chip">
+        <div class="admin-avatar"><img src="img/admin.jpg" alt="Admin KosBites"></div>
+        <div>
+          <div class="admin-name">Admin KosBites</div>
+          <div class="admin-role">Super Admin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">📊 Dashboard</div>
+      <div class="topbar-right"><button onclick="window.location.href='index.html'"
+          style="background:none;border:1px solid var(--border);border-radius:9px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;margin-right:8px">🏠
+          Lihat Toko</button>
+        <div class="notif-btn">🔔<div class="notif-dot"></div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">Rabu, 13 Mei 2025</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-box green">💰</div><span class="stat-badge up">↑ 12%</span>
+          </div>
+          <div class="stat-val">Rp 4,2jt</div>
+          <div class="stat-lbl">Pendapatan Bulan Ini</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-box yellow">📦</div><span class="stat-badge up">↑ 8%</span>
+          </div>
+          <div class="stat-val">148</div>
+          <div class="stat-lbl">Total Transaksi</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-box blue">👥</div><span class="stat-badge up">↑ 5%</span>
+          </div>
+          <div class="stat-val">2.4K</div>
+          <div class="stat-lbl">Total Pengguna</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-box purple">🍽️</div><span class="stat-badge down">↓ 2%</span>
+          </div>
+          <div class="stat-val">12</div>
+          <div class="stat-lbl">Menu Aktif</div>
+        </div>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">📈 Pendapatan Mingguan</div>
+            <select class="chart-select">
+              <option>7 Hari Terakhir</option>
+              <option>30 Hari</option>
+            </select>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-group">
+              <div class="bar-val">620k</div>
+              <div class="bar" style="height:60%"></div>
+              <div class="bar-label">Sen</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">480k</div>
+              <div class="bar" style="height:46%"></div>
+              <div class="bar-label">Sel</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">710k</div>
+              <div class="bar" style="height:68%"></div>
+              <div class="bar-label">Rab</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">530k</div>
+              <div class="bar" style="height:51%"></div>
+              <div class="bar-label">Kam</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">890k</div>
+              <div class="bar active" style="height:86%"></div>
+              <div class="bar-label">Jum</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">760k</div>
+              <div class="bar" style="height:73%"></div>
+              <div class="bar-label">Sab</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-val">450k</div>
+              <div class="bar" style="height:43%"></div>
+              <div class="bar-label">Min</div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">🥧 Status Transaksi</div>
+          </div>
+          <div class="donut-wrap">
+            <div class="donut">
+              <svg width="110" height="110" viewBox="0 0 110 110">
+                <circle cx="55" cy="55" r="40" fill="none" stroke="#E2F0E2" stroke-width="18" />
+                <circle cx="55" cy="55" r="40" fill="none" stroke="#22C55E" stroke-width="18" stroke-dasharray="188 251"
+                  stroke-linecap="round" />
+                <circle cx="55" cy="55" r="40" fill="none" stroke="#F8C536" stroke-width="18" stroke-dasharray="38 251"
+                  stroke-dashoffset="-188" stroke-linecap="round" />
+                <circle cx="55" cy="55" r="40" fill="none" stroke="#EF4444" stroke-width="18" stroke-dasharray="25 251"
+                  stroke-dashoffset="-226" stroke-linecap="round" />
+              </svg>
+              <div class="donut-center">
+                <div class="donut-center-val">148</div>
+                <div class="donut-center-lbl">Total</div>
+              </div>
+            </div>
+            <div class="donut-legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#22C55E"></div>
+                <div class="legend-lbl">Selesai</div>
+                <div class="legend-val">111</div>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F8C536"></div>
+                <div class="legend-lbl">Diproses</div>
+                <div class="legend-val">22</div>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#EF4444"></div>
+                <div class="legend-lbl">Dibatalkan</div>
+                <div class="legend-val">15</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div class="bottom-row">
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">🕐 Transaksi Terbaru</div>
+            <div class="see-all" onclick="window.location.href='kelola-transaksi.html'">Lihat semua →</div>
+          </div>
+          <div class="trx-row">
+            <div class="trx-emoji" style="background:var(--green-pale)"><img src="img/ayam-geprek.jpg"
+                alt="Ayam Geprek"></div>
+            <div class="trx-info">
+              <div class="trx-name">Andy Pratama</div>
+              <div class="trx-sub">Ayam Geprek x2 · 12:30</div>
+            </div>
+            <div>
+              <div class="trx-amount">Rp 36.000</div><span class="badge-sm badge-success">Selesai</span>
+            </div>
+          </div>
+          <div class="trx-row">
+            <div class="trx-emoji" style="background:var(--yellow-light)"><img src="img/semur-daging.jpg"
+                alt="Semur Daging"></div>
+            <div class="trx-info">
+              <div class="trx-name">Rina Kusuma</div>
+              <div class="trx-sub">Semur Daging x1 · 11:15</div>
+            </div>
+            <div>
+              <div class="trx-amount">Rp 22.000</div><span class="badge-sm badge-pending">Diproses</span>
+            </div>
+          </div>
+          <div class="trx-row">
+            <div class="trx-emoji" style="background:#F0F4FF"><img src="img/telur-balado.jpg" alt="Telur Balado">
+            </div>
+            <div class="trx-info">
+              <div class="trx-name">Budi Santoso</div>
+              <div class="trx-sub">Telur Balado x2 · 10:00</div>
+            </div>
+            <div>
+              <div class="trx-amount">Rp 24.000</div><span class="badge-sm badge-success">Selesai</span>
+            </div>
+          </div>
+          <div class="trx-row">
+            <div class="trx-emoji" style="background:#FFF0F0"><img src="img/tumis-brokoli.jpg" alt="Tumis Brokoli">
+            </div>
+            <div class="trx-info">
+              <div class="trx-name">Sari Dewi</div>
+              <div class="trx-sub">Tumis Brokoli x1 · 09:30</div>
+            </div>
+            <div>
+              <div class="trx-amount">Rp 14.000</div><span class="badge-sm badge-success">Selesai</span>
+            </div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">🔥 Menu Terlaris</div>
+            <div class="see-all" onclick="window.location.href='kelola-produk.html'">Lihat semua →</div>
+          </div>
+          <div class="menu-pop-row">
+            <div class="menu-rank">01</div>
+            <div class="menu-info">
+              <div class="menu-name">Ayam Geprek Sambal Ijo</div>
+              <div class="menu-sold">248 porsi terjual</div>
+            </div>
+            <div class="menu-rev">Rp 4,4jt</div>
+          </div>
+          <div class="menu-pop-row">
+            <div class="menu-rank">02</div>
+            <div class="menu-info">
+              <div class="menu-name">Semur Daging Kentang</div>
+              <div class="menu-sold">186 porsi terjual</div>
+            </div>
+            <div class="menu-rev">Rp 4,1jt</div>
+          </div>
+          <div class="menu-pop-row">
+            <div class="menu-rank">03</div>
+            <div class="menu-info">
+              <div class="menu-name">Rendang Sapi Mini</div>
+              <div class="menu-sold">142 porsi terjual</div>
+            </div>
+            <div class="menu-rev">Rp 3,5jt</div>
+          </div>
+          <div class="menu-pop-row">
+            <div class="menu-rank">04</div>
+            <div class="menu-info">
+              <div class="menu-name">Telur Balado + Nasi</div>
+              <div class="menu-sold">138 porsi terjual</div>
+            </div>
+            <div class="menu-rev">Rp 1,6jt</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
