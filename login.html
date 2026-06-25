@@ -344,8 +344,6 @@
       white-space: nowrap
     }
 
-    .demo-section {}
-
     .demo-label {
       font-size: 11px;
       font-weight: 700;
@@ -583,7 +581,6 @@
       currentRole = role
       document.getElementById('tabUser').classList.toggle('active', role === 'user')
       document.getElementById('tabAdmin').classList.toggle('active', role === 'admin')
-      // Clear error on role switch
       document.getElementById('errorMsg').classList.remove('show')
       document.getElementById('emailInput').value = ''
       document.getElementById('passInput').value = ''
@@ -611,26 +608,28 @@
       document.getElementById('loadingOverlay').classList.add('show')
     }
 
+    // Tentukan tujuan redirect berdasarkan role
+    function getDestination(role) {
+      return role === 'admin' ? 'dashboard.html' : 'arsip-artikel.html'
+    }
+
     function handleLogin() {
       hideError()
       const email = document.getElementById('emailInput').value.trim()
       const pass = document.getElementById('passInput').value.trim()
 
-      // Validation
       if (!email) { showError('Email tidak boleh kosong.'); return }
       if (!email.includes('@')) { showError('Format email tidak valid.'); return }
       if (!pass) { showError('Password tidak boleh kosong.'); return }
       if (pass.length < 6) { showError('Password minimal 6 karakter.'); return }
 
-      // Check credentials
       const acc = DEMO_ACCOUNTS[currentRole]
       if (email !== acc.email || pass !== acc.pass) {
-        showError(`Email atau password salah. Coba gunakan akun demo di bawah.`)
+        showError('Email atau password salah. Coba gunakan akun demo di bawah.')
         return
       }
 
-      // Login success
-      const dest = currentRole === 'admin' ? 'dashboard.html' : 'index.html'
+      const dest = getDestination(currentRole)
       const label = currentRole === 'admin' ? 'Masuk ke Dashboard Admin...' : 'Masuk ke KosBites...'
       showLoading(label)
       setTimeout(() => { window.location.href = dest }, 1500)
@@ -638,8 +637,9 @@
 
     function demoLogin(role) {
       hideError()
-      showLoading(role === 'admin' ? 'Membuka Dashboard Admin...' : 'Masuk sebagai User...')
-      const dest = role === 'admin' ? 'dashboard.html' : 'index.html'
+      const dest = getDestination(role)
+      const label = role === 'admin' ? 'Membuka Dashboard Admin...' : 'Masuk sebagai User...'
+      showLoading(label)
       setTimeout(() => { window.location.href = dest }, 1200)
     }
 
@@ -650,7 +650,6 @@
 
     // Auto-fill hint on tab switch
     document.getElementById('tabAdmin').addEventListener('click', function () {
-      // hint in placeholder
       document.getElementById('emailInput').placeholder = 'admin@kosbites.id'
       document.getElementById('passInput').placeholder = 'admin123'
     })
