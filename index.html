@@ -1,1043 +1,1088 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artikel & Tips — KosBites</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <style>
-    /* ===========================
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KosBites — Makan Enak, Budget Tetap Aman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ===========================
        RESET & ROOT VARIABLES
     =========================== */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    :root {
-      --green:        #22C55E;
-      --green-dark:   #16A34A;
-      --green-light:  #DCFCE7;
-      --green-pale:   #F0FDF4;
-      --yellow:       #F8C536;
-      --yellow-light: #FEF9C3;
-      --yellow-dark:  #D97706;
-      --white:        #FFFFFF;
-      --text:         #1A2E1A;
-      --muted:        #6B7F6B;
-      --border:       #E2F0E2;
-      --off:          #F7FDF7;
-      --radius:       16px;
-      --radius-sm:    10px;
-      --transition:   0.28s cubic-bezier(0.4, 0, 0.2, 1);
-      --shadow-sm:    0 2px 12px rgba(34,197,94,0.06);
-      --shadow-md:    0 8px 24px rgba(34,197,94,0.10);
-      --shadow-lg:    0 12px 32px rgba(34,197,94,0.13);
-    }
+        :root {
+            --green: #22C55E;
+            --green-dark: #16A34A;
+            --green-light: #DCFCE7;
+            --green-pale: #F0FDF4;
+            --yellow: #F8C536;
+            --yellow-light: #FEF9C3;
+            --yellow-dark: #D97706;
+            --white: #FFFFFF;
+            --text: #1A2E1A;
+            --muted: #6B7F6B;
+            --border: #E2F0E2;
+            --off: #F7FDF7;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 2px 12px rgba(34, 197, 94, 0.06);
+            --shadow-md: 0 8px 24px rgba(34, 197, 94, 0.10);
+            --shadow-lg: 0 12px 32px rgba(34, 197, 94, 0.13);
+        }
 
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--off);
-      color: var(--text);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--off);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    /* ===========================
+        /* ===========================
        ANIMATIONS
     =========================== */
-    @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
-    }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
 
-    @keyframes fadeUp {
-      from { transform: translateY(24px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
-    }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
 
-    /* ===========================
+        @keyframes fadeUp {
+            from {
+                transform: translateY(24px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===========================
+       SHARED UTILITIES
+    =========================== */
+        .btn-green {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            background: var(--green);
+            border: none;
+            border-radius: 99px;
+            padding: 10px 24px;
+            cursor: pointer;
+            transition: background var(--transition), transform var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-green:hover {
+            background: var(--green-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--green-dark);
+            background: white;
+            border: 1.5px solid var(--green);
+            border-radius: 99px;
+            padding: 10px 24px;
+            cursor: pointer;
+            transition: background var(--transition);
+        }
+
+        .btn-outline:hover {
+            background: var(--green-light);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 99px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--green-dark);
+            letter-spacing: 0.06em;
+        }
+
+        .section-label {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.025em;
+            margin-bottom: 0.4rem;
+        }
+
+        .section-sub {
+            text-align: center;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 3rem;
+        }
+
+        /* ===========================
        NAVBAR
     =========================== */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(247, 253, 247, 0.90);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 62px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      animation: slideDown 0.5s ease both;
-    }
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(247, 253, 247, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideDown 0.5s ease both;
+        }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
 
-    .logo-icon {
-      width: 34px;
-      height: 34px;
-      background: var(--green);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
+        .logo-icon {
+            width: 34px;
+            height: 34px;
+            background: var(--green);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
 
-    .logo-text {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text);
-    }
+        .logo-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+        }
 
-    .logo-text span { color: var(--green); }
+        .logo-text span {
+            color: var(--green);
+        }
 
-    .nav-links {
-      display: flex;
-      gap: 1.75rem;
-      list-style: none;
-    }
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+            list-style: none;
+        }
 
-    .nav-links a {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--green-dark);
-      font-weight: 700;
-    }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--green-dark);
+            font-weight: 700;
+        }
 
-    .nav-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
 
-    .btn-outline {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--green-dark);
-      background: none;
-      border: 1.5px solid var(--green);
-      border-radius: 99px;
-      padding: 7px 18px;
-      cursor: pointer;
-      transition: background var(--transition);
-    }
+        .nav-actions .btn-outline {
+            font-size: 13px;
+            padding: 7px 18px;
+        }
 
-    .btn-outline:hover { background: var(--green-light); }
+        .nav-actions .btn-green {
+            font-size: 13px;
+            padding: 7px 20px;
+        }
 
-    .btn-green {
-      font-size: 13px;
-      font-weight: 600;
-      color: white;
-      background: var(--green);
-      border: none;
-      border-radius: 99px;
-      padding: 7px 20px;
-      cursor: pointer;
-      transition: background var(--transition), transform var(--transition);
-    }
-
-    .btn-green:hover {
-      background: var(--green-dark);
-      transform: translateY(-1px);
-    }
-
-    /* ===========================
-       PAGE HEADER
+        /* ===========================
+       HERO
     =========================== */
-    .page-header {
-      background: linear-gradient(135deg, var(--green-pale), var(--yellow-light));
-      border-bottom: 1px solid var(--border);
-      padding: 3.5rem 2rem 3rem;
-      text-align: center;
-      animation: fadeUp 0.55s ease both;
-    }
+        .hero {
+            background: linear-gradient(150deg, var(--green-pale) 0%, #FEFCE8 60%, white 100%);
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.55s ease both;
+        }
 
-    .page-header .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 99px;
-      padding: 5px 16px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--green-dark);
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.18;
+            pointer-events: none;
+        }
 
-    .page-header h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.02em;
-    }
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+        }
 
-    .page-header p {
-      font-size: 14px;
-      color: var(--muted);
-      max-width: 440px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 1.1rem;
+        }
 
-    /* ===========================
-       FILTER BAR
+        .hero h1 .accent {
+            color: var(--green);
+        }
+
+        .hero>.hero-inner>p {
+            font-size: 15px;
+            color: var(--muted);
+            max-width: 460px;
+            margin: 0 auto 2rem;
+            line-height: 1.75;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .hero-ctas .btn-green {
+            font-size: 15px;
+            padding: 12px 28px;
+        }
+
+        .hero-ctas .btn-outline {
+            font-size: 15px;
+            padding: 12px 28px;
+        }
+
+        .hero-stats {
+            display: inline-flex;
+            gap: 2rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.1rem 2rem;
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat .num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green-dark);
+        }
+
+        .hero-stat .lbl {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .stat-div {
+            width: 1px;
+            background: var(--border);
+        }
+
+        /* ===========================
+       HOW IT WORKS
     =========================== */
-    .filter-bar {
-      max-width: 1100px;
-      margin: 2rem auto 0;
-      padding: 0 2rem;
-      animation: fadeUp 0.55s 0.1s ease both;
-    }
+        .how {
+            padding: 4.5rem 2rem;
+            background: white;
+            animation: fadeUp 0.55s 0.1s ease both;
+        }
 
-    .search-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 1rem;
-      align-items: center;
-    }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    .search-box {
-      flex: 1;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: var(--shadow-sm);
-      transition: border-color var(--transition), box-shadow var(--transition);
-    }
+        .step-card {
+            background: var(--off);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+            position: relative;
+        }
 
-    .search-box:focus-within {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
-    }
+        .step-num {
+            width: 44px;
+            height: 44px;
+            background: var(--green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto 1rem;
+        }
 
-    .search-box input {
-      border: none;
-      outline: none;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 14px;
-      color: var(--text);
-      background: none;
-      flex: 1;
-    }
+        .step-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
 
-    .search-box input::placeholder { color: var(--muted); }
+        .step-card p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.65;
+        }
 
-    .sort-select {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem 1rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 13px;
-      color: var(--text);
-      cursor: pointer;
-      outline: none;
-      transition: border-color var(--transition);
-    }
+        .step-arrow {
+            position: absolute;
+            right: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--green);
+            z-index: 2;
+        }
 
-    .sort-select:focus { border-color: var(--green); }
-
-    .chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted);
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 99px;
-      padding: 6px 16px;
-      cursor: pointer;
-      transition: all 0.2s;
-      user-select: none;
-    }
-
-    .chip.active {
-      background: var(--green);
-      color: white;
-      border-color: var(--green);
-    }
-
-    .chip:hover:not(.active) {
-      border-color: var(--green);
-      color: var(--green-dark);
-    }
-
-    /* ===========================
-       MAIN LAYOUT
+        /* ===========================
+       MENU PREVIEW
     =========================== */
-    .main {
-      max-width: 1100px;
-      margin: 2rem auto;
-      padding: 0 2rem 4rem;
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 2rem;
-      animation: fadeUp 0.55s 0.2s ease both;
-    }
+        .menu-preview {
+            padding: 4.5rem 2rem;
+            background: var(--off);
+            animation: fadeUp 0.55s 0.15s ease both;
+        }
 
-    /* ===========================
-       ARTICLES COLUMN
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 1050px;
+            margin: 0 auto 2rem;
+        }
+
+        .menu-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .menu-thumb {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+
+        .menu-thumb.g1 {
+            background: var(--green-pale);
+        }
+
+        .menu-thumb.g2 {
+            background: var(--yellow-light);
+        }
+
+        .menu-thumb.g3 {
+            background: #FFF0F0;
+        }
+
+        .menu-thumb.g4 {
+            background: #F0F4FF;
+        }
+
+        .menu-thumb.g5 {
+            background: #FFF7ED;
+        }
+
+        .menu-thumb.g6 {
+            background: #F5F0FF;
+        }
+
+        .menu-body {
+            padding: 12px 14px 14px;
+        }
+
+        .menu-cat {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--green);
+            margin-bottom: 3px;
+        }
+
+        .menu-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .menu-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .menu-price {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--green-dark);
+        }
+
+        .menu-badge {
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--yellow-light);
+            color: var(--yellow-dark);
+            border: 1px solid var(--yellow);
+            border-radius: 99px;
+            padding: 2px 9px;
+        }
+
+        .see-more {
+            text-align: center;
+        }
+
+        /* ===========================
+       WHY KOSBITES
     =========================== */
-    .result-info {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 1.25rem;
-      font-weight: 500;
-    }
+        .why {
+            padding: 4.5rem 2rem;
+            background: white;
+            animation: fadeUp 0.55s 0.2s ease both;
+        }
 
-    .result-info span {
-      color: var(--green-dark);
-      font-weight: 700;
-    }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-width: 820px;
+            margin: 0 auto;
+        }
 
-    /* Featured Article */
-    .article-featured {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 1.25rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      cursor: pointer;
-      transition: transform var(--transition), box-shadow var(--transition);
-    }
+        .why-card {
+            background: var(--green-pale);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
 
-    .article-featured:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg);
-    }
+        .why-icon {
+            font-size: 1.75rem;
+            min-width: 44px;
+            height: 44px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
 
-    .feat-img {
-      background: var(--green-pale);
-      min-height: 210px;
-      overflow: hidden;
-    }
+        .why-card h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
 
-    .feat-img img {
-      width: 100%;
-      height: 100%;
-      min-height: 210px;
-      object-fit: cover;
-      display: block;
-    }
+        .why-card p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
 
-    .feat-body {
-      padding: 1.75rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .feat-badge {
-      display: inline-block;
-      background: var(--yellow-light);
-      border: 1px solid var(--yellow);
-      color: var(--yellow-dark);
-      font-size: 10px;
-      font-weight: 700;
-      border-radius: 99px;
-      padding: 3px 12px;
-      margin-bottom: 0.75rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      width: fit-content;
-    }
-
-    .feat-cat {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 0.4rem;
-    }
-
-    .feat-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1.35;
-      margin-bottom: 0.65rem;
-      letter-spacing: -0.01em;
-    }
-
-    .feat-excerpt {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.1rem;
-    }
-
-    .feat-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 11px;
-      color: var(--muted);
-      flex-wrap: wrap;
-    }
-
-    .meta-dot {
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: var(--muted);
-      display: inline-block;
-    }
-
-    /* Article Grid */
-    .articles-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 1.5rem;
-    }
-
-    .art-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform var(--transition), box-shadow var(--transition);
-    }
-
-    .art-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .art-img {
-      height: 130px;
-      overflow: hidden;
-      background: var(--green-pale);
-    }
-
-    .art-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .art-img.c1 { background: var(--green-pale); }
-    .art-img.c2 { background: var(--yellow-light); }
-    .art-img.c3 { background: #FFF0F0; }
-    .art-img.c4 { background: #F0F4FF; }
-    .art-img.c5 { background: #FFF7ED; }
-    .art-img.c6 { background: #F5F0FF; }
-
-    .art-body { padding: 14px; }
-
-    .art-cat {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 4px;
-    }
-
-    .art-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.4;
-      margin-bottom: 8px;
-    }
-
-    .art-meta {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .art-read {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--green);
-      margin-top: 8px;
-      cursor: pointer;
-      transition: gap var(--transition);
-    }
-
-    .art-read:hover { gap: 8px; }
-
-    /* ===========================
-       PAGINATION
+        /* ===========================
+       TESTIMONIAL
     =========================== */
-    .pagination {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 1.5rem;
-    }
+        .testimonial {
+            padding: 4.5rem 2rem;
+            background: var(--off);
+            animation: fadeUp 0.55s 0.25s ease both;
+        }
 
-    .page-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: white;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
+        .testi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
 
-    .page-btn.active {
-      background: var(--green);
-      color: white;
-      border-color: var(--green);
-    }
+        .testi-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.35rem;
+        }
 
-    .page-btn:hover:not(.active) {
-      border-color: var(--green);
-      color: var(--green-dark);
-    }
+        .stars {
+            color: var(--yellow);
+            font-size: 13px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
 
-    /* ===========================
-       SIDEBAR
+        .testi-text {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testi-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .testi-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .testi-role {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        /* ===========================
+       CTA BANNER
     =========================== */
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+        .cta-banner {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--green-dark), var(--green));
+            text-align: center;
+        }
 
-    .sidebar-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-    }
+        .cta-banner h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.6rem;
+        }
 
-    .sidebar-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 1rem;
-    }
+        .cta-banner p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.82);
+            margin-bottom: 2rem;
+        }
 
-    /* Popular List */
-    .popular-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+        .cta-banner-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-    .popular-item {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      cursor: pointer;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-      transition: opacity var(--transition);
-    }
+        .cta-banner .btn-white {
+            background: white;
+            color: var(--green-dark);
+            font-size: 15px;
+            padding: 12px 28px;
+        }
 
-    .popular-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .popular-item:first-child { padding-top: 0; }
-    .popular-item:hover { opacity: 0.75; }
+        .cta-banner .btn-ghost {
+            background: transparent;
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            color: white;
+            font-size: 15px;
+            padding: 12px 28px;
+            border-radius: 99px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background var(--transition);
+        }
 
-    .pop-num {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--green-light);
-      min-width: 28px;
-      line-height: 1;
-    }
+        .cta-banner .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
 
-    .pop-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.45;
-      margin-bottom: 3px;
-    }
-
-    .pop-meta {
-      font-size: 10px;
-      color: var(--muted);
-    }
-
-    /* Tag Cloud */
-    .tag-cloud {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .tag {
-      font-size: 11px;
-      font-weight: 600;
-      background: var(--green-pale);
-      color: var(--green-dark);
-      border-radius: 99px;
-      padding: 5px 12px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-    }
-
-    .tag:hover {
-      background: var(--green-light);
-      transform: translateY(-1px);
-    }
-
-    /* Newsletter */
-    .newsletter-card {
-      background: linear-gradient(135deg, var(--green), var(--green-dark));
-      border-radius: var(--radius);
-      padding: 1.35rem;
-      color: white;
-    }
-
-    .newsletter-card .nl-title {
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 0.4rem;
-    }
-
-    .newsletter-card .nl-desc {
-      font-size: 12px;
-      opacity: 0.85;
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
-
-    .newsletter-input {
-      width: 100%;
-      border: none;
-      border-radius: var(--radius-sm);
-      padding: 9px 12px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 12px;
-      margin-bottom: 8px;
-      outline: none;
-      color: var(--text);
-    }
-
-    .newsletter-btn {
-      width: 100%;
-      background: var(--yellow);
-      color: var(--text);
-      border: none;
-      border-radius: var(--radius-sm);
-      padding: 9px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.15s;
-    }
-
-    .newsletter-btn:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    /* ===========================
+        /* ===========================
        FOOTER
     =========================== */
-    footer {
-      background: var(--text);
-      color: white;
-      padding: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
 
-    .footer-logo {
-      font-size: 18px;
-      font-weight: 800;
-    }
+        .footer-logo {
+            font-size: 18px;
+            font-weight: 800;
+        }
 
-    .footer-logo span { color: var(--green); }
+        .footer-logo span {
+            color: var(--green);
+        }
 
-    .footer-tagline {
-      font-size: 12px;
-      color: rgba(255,255,255,0.45);
-      margin-top: 3px;
-    }
+        .footer-tagline {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 3px;
+        }
 
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-    }
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
 
-    .footer-links a {
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+        .footer-links a {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
 
-    .footer-links a:hover { color: var(--green); }
+        .footer-links a:hover {
+            color: var(--green);
+        }
 
-    .footer-copy {
-      font-size: 11px;
-      color: rgba(255,255,255,0.3);
-    }
+        .footer-copy {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.28);
+        }
 
-    /* ===========================
+        /* ===========================
        RESPONSIVE — MOBILE
     =========================== */
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 1rem;
-        height: 56px;
-      }
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 1rem;
+                height: 56px;
+            }
 
-      .nav-links { display: none; }
+            .nav-links {
+                display: none;
+            }
 
-      .page-header { padding: 2.5rem 1rem 2rem; }
-      .page-header h1 { font-size: 1.5rem; }
+            .hero {
+                padding: 3rem 1rem 2.5rem;
+            }
 
-      .filter-bar { padding: 0 1rem; }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
 
-      .search-row { flex-direction: column; }
-      .sort-select { width: 100%; }
+            .hero-stats {
+                gap: 1.2rem;
+                padding: 1rem 1.2rem;
+            }
 
-      .main {
-        grid-template-columns: 1fr;
-        padding: 0 1rem 3rem;
-      }
+            .how,
+            .menu-preview,
+            .why,
+            .testimonial {
+                padding: 3rem 1rem;
+            }
 
-      .article-featured {
-        grid-template-columns: 1fr;
-      }
+            .steps {
+                grid-template-columns: 1fr;
+            }
 
-      .feat-img { min-height: 160px; }
+            .step-arrow {
+                display: none;
+            }
 
-      .articles-grid { grid-template-columns: 1fr; }
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
 
-      .sidebar { order: -1; }
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
 
-      footer {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1.5rem 1rem;
-        gap: 1rem;
-      }
+            .testi-grid {
+                grid-template-columns: 1fr;
+            }
 
-      .footer-links { flex-wrap: wrap; gap: 1rem; }
-    }
-  </style>
+            .cta-banner {
+                padding: 3rem 1rem;
+            }
+
+            .cta-banner h2 {
+                font-size: 1.4rem;
+            }
+
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- ======= NAVBAR ======= -->
-  <nav>
-    <a class="logo" href="index.html">
-      <div class="logo-icon">🍱</div>
-      <div class="logo-text">Kos<span>Bites</span></div>
-    </a>
-    <ul class="nav-links"><li><a href="index.html">Beranda</a></li><li><a href="katalog.html">Menu</a></li><li><a href="#">Paket</a></li><li><a href="arsip-artikel.html" class="active">Artikel</a></li><li><a href="history-transaksi.html">Pesanan</a></li></ul>
-    <div class="nav-actions">
-      <button class="btn-outline" onclick="window.location.href='login.html'">Masuk</button>
-      <button class="btn-green" onclick="window.location.href='keranjang.html'">🛒 Keranjang</button>
-    </div>
-  </nav>
-
-  <!-- ======= PAGE HEADER ======= -->
-  <div class="page-header">
-    <div class="eyebrow">Artikel & Tips</div>
-    <h1>Tips Makan Sehat & Hemat</h1>
-    <p>Kumpulan artikel seputar gizi, hemat budget, dan gaya hidup anak kos yang lebih baik.</p>
-  </div>
-
-  <!-- ======= FILTER BAR ======= -->
-  <div class="filter-bar">
-    <div class="search-row">
-      <div class="search-box">
-        <input type="text" placeholder="Cari artikel...">
-      </div>
-      <select class="sort-select">
-        <option>Terbaru</option>
-        <option>Terpopuler</option>
-        <option>Terlama</option>
-      </select>
-    </div>
-    <div class="chips">
-      <div class="chip active" onclick="setChip(this)">Semua</div>
-      <div class="chip" onclick="setChip(this)">Tips Makan Sehat</div>
-      <div class="chip" onclick="setChip(this)">Hemat Budget</div>
-      <div class="chip" onclick="setChip(this)">Gizi & Nutrisi</div>
-      <div class="chip" onclick="setChip(this)">Resep Mudah</div>
-      <div class="chip" onclick="setChip(this)">Gaya Hidup</div>
-    </div>
-  </div>
-
-  <!-- ======= MAIN CONTENT ======= -->
-  <div class="main">
-
-    <!-- ARTICLES COLUMN -->
-    <div class="articles-col">
-      <div class="result-info">Menampilkan <span>6</span> artikel dari <span>48</span> total</div>
-
-      <!-- Featured Article -->
-      <div class="article-featured" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">
-        <div class="feat-img">
-          <img src="img/close-up-hands-holding-bowl-salad.jpg" alt="Cara Atur Makan Sehat">
+    <!-- ======= NAVBAR ======= -->
+    <nav>
+        <a class="logo" href="index.html">
+            <div class="logo-icon">🍱</div>
+            <div class="logo-text">Kos<span>Bites</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Beranda</a></li>
+            <li><a href="katalog.html">Menu</a></li>
+            <li><a href="#">Paket</a></li>
+            <li><a href="arsip-artikel.html">Artikel</a></li>
+            <li><a href="history-transaksi.html">Pesanan</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="btn-outline" onclick="window.location.href='login.html'">Masuk</button>
+            <button class="btn-green" onclick="window.location.href='keranjang.html'">🛒 Keranjang</button>
         </div>
-        <div class="feat-body">
-          <div class="feat-badge">⭐ Artikel Pilihan</div>
-          <div class="feat-cat">Tips Makan Sehat</div>
-          <div class="feat-title">Cara Atur Makan Sehat dengan Budget di Bawah 30 Ribu per Hari</div>
-          <div class="feat-excerpt">Makan sehat gak harus mahal. Dengan sedikit perencanaan, kamu bisa tetap bergizi sambil tetap hemat di akhir bulan.</div>
-          <div class="feat-meta">
-            <span>5 Mei 2025</span>
-            <span class="meta-dot"></span>
-            <span>4 menit baca</span>
-            <span class="meta-dot"></span>
-            <span>🔥 1.2K dibaca</span>
-          </div>
+    </nav>
+
+    <!-- ======= HERO ======= -->
+    <section class="hero">
+        <div class="hero-blob" style="width:400px;height:400px;background:var(--green-light);top:-100px;left:-120px;">
         </div>
-      </div>
-
-      <!-- Article Grid -->
-      <div class="articles-grid">
-
-        <div class="art-card">
-          <div class="art-img c2"><img src="img/smart-beautiful-casual-asian-woman-enjoy-reading-book-weekend-pink-sweater-home-background.jpg" alt="Hemat Pengeluaran Makan"></div>
-          <div class="art-body">
-            <div class="art-cat">Hemat Budget</div>
-            <div class="art-title">5 Cara Hemat Pengeluaran Makan Selama Kuliah</div>
-            <div class="art-meta">
-              <span>1 Mei 2025</span>
-              <span class="meta-dot"></span>
-              <span>3 menit</span>
+        <div class="hero-blob"
+            style="width:300px;height:300px;background:var(--yellow-light);bottom:-80px;right:-80px;"></div>
+        <div class="hero-inner">
+            <div class="badge" style="margin-bottom:1.25rem;">🎉 Baru hadir di Surabaya!</div>
+            <h1>Makan Enak,<br>Budget <span class="accent">Tetap Aman</span> 💚</h1>
+            <p>Catering harian khusus anak kos &amp; mahasiswa. Bergizi, lezat, dan langsung diantar ke kosanmu.</p>
+            <div class="hero-ctas">
+                <button class="btn-green" onclick="window.location.href='katalog.html'">Pesan Sekarang 🚀</button>
+                <button class="btn-outline" onclick="window.location.href='katalog.html'">Lihat Menu</button>
             </div>
-            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
-          </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="num">2.4K+</div>
+                    <div class="lbl">Pelanggan Aktif</div>
+                </div>
+                <div class="stat-div"></div>
+                <div class="hero-stat">
+                    <div class="num">98%</div>
+                    <div class="lbl">Puas &amp; Happy</div>
+                </div>
+                <div class="stat-div"></div>
+                <div class="hero-stat">
+                    <div class="num">50+</div>
+                    <div class="lbl">Menu Pilihan</div>
+                </div>
+                <div class="stat-div"></div>
+                <div class="hero-stat">
+                    <div class="num">30rb</div>
+                    <div class="lbl">Mulai dari</div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="art-card">
-          <div class="art-img c1"><img src="img/elevated-view-thai-food-with-person-writing-clipboard-with-pen.jpg" alt="Menu Rumahan vs Makanan Instan"></div>
-          <div class="art-body">
-            <div class="art-cat">Gizi & Nutrisi</div>
-            <div class="art-title">Kenapa Menu Rumahan Lebih Baik dari Makanan Instan?</div>
-            <div class="art-meta">
-              <span>28 Apr 2025</span>
-              <span class="meta-dot"></span>
-              <span>3 menit</span>
-            </div>
-            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
-          </div>
+    <!-- ======= HOW IT WORKS ======= -->
+    <section class="how">
+        <div class="section-label">
+            <div class="badge">Cara Kerja</div>
         </div>
-
-        <div class="art-card">
-          <div class="art-img c3"><img src="img/close-up-hands-holding-notebook.jpg" alt="Resep Simpel di Kos"></div>
-          <div class="art-body">
-            <div class="art-cat">Resep Mudah</div>
-            <div class="art-title">3 Resep Simpel yang Bisa Dimasak di Kos Tanpa Kompor Besar</div>
-            <div class="art-meta">
-              <span>22 Apr 2025</span>
-              <span class="meta-dot"></span>
-              <span>5 menit</span>
+        <h2 class="section-title">Pesan dalam 3 Langkah</h2>
+        <p class="section-sub">Sesimpel itu, dan makananmu langsung meluncur ke depan pintu kos.</p>
+        <div class="steps">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h3>Pilih Menu</h3>
+                <p>Jelajahi 50+ menu sehat dan lezat yang bisa kamu pilih sesuka hati.</p>
+                <div class="step-arrow">→</div>
             </div>
-            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
-          </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h3>Checkout &amp; Bayar</h3>
+                <p>Bayar mudah lewat transfer, QRIS, atau dompet digital favoritmu.</p>
+                <div class="step-arrow">→</div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h3>Terima di Kos</h3>
+                <p>Pesanan diantar tepat waktu, hangat, dan langsung ke depan pintu kos.</p>
+            </div>
         </div>
+    </section>
 
-        <div class="art-card">
-          <div class="art-img c4"><img src="img/woman-east-fast-food-from-delivery-bed-bedroom-home.jpg" alt="Pola Makan dan Kualitas Tidur"></div>
-          <div class="art-body">
-            <div class="art-cat">Gaya Hidup</div>
-            <div class="art-title">Hubungan Pola Makan & Kualitas Tidur Mahasiswa</div>
-            <div class="art-meta">
-              <span>18 Apr 2025</span>
-              <span class="meta-dot"></span>
-              <span>4 menit</span>
-            </div>
-            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
-          </div>
+    <!-- ======= MENU PREVIEW ======= -->
+    <section class="menu-preview">
+        <div class="section-label">
+            <div class="badge">Menu Hari Ini</div>
         </div>
+        <h2 class="section-title">Favorit Anak Kos</h2>
+        <p class="section-sub">Fresh setiap hari, dimasak pagi supaya kamu tetap dapat yang terbaik.</p>
+        <div class="menu-grid">
 
-        <div class="art-card">
-          <div class="art-img c5"><img src="img/top-view-hand-holding-yogurt-bottle.jpg" alt="Tips Belanja Mingguan"></div>
-          <div class="art-body">
-            <div class="art-cat">Hemat Budget</div>
-            <div class="art-title">Tips Belanja Bahan Makanan Mingguan Biar Gak Boros</div>
-            <div class="art-meta">
-              <span>14 Apr 2025</span>
-              <span class="meta-dot"></span>
-              <span>3 menit</span>
+            <div class="menu-card" onclick="window.location.href='katalog.html'">
+                <div class="menu-thumb g1">🍛</div>
+                <div class="menu-body">
+                    <div class="menu-cat">Makan Siang</div>
+                    <div class="menu-name">Nasi Ayam Geprek Sambal Matah</div>
+                    <div class="menu-footer">
+                        <div class="menu-price">Rp 18.000</div>
+                        <div class="menu-badge">🔥 Terlaris</div>
+                    </div>
+                </div>
             </div>
-            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
-          </div>
+
+            <div class="menu-card" onclick="window.location.href='katalog.html'">
+                <div class="menu-thumb g2">🥗</div>
+                <div class="menu-body">
+                    <div class="menu-cat">Diet Sehat</div>
+                    <div class="menu-name">Rice Bowl Tuna Sayur Segar</div>
+                    <div class="menu-footer">
+                        <div class="menu-price">Rp 22.000</div>
+                        <div class="menu-badge">🌱 Rendah Kalori</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="window.location.href='katalog.html'">
+                <div class="menu-thumb g3">🍜</div>
+                <div class="menu-body">
+                    <div class="menu-cat">Makan Malam</div>
+                    <div class="menu-name">Mie Goreng Spesial Telur Ceplok</div>
+                    <div class="menu-footer">
+                        <div class="menu-price">Rp 15.000</div>
+                        <div class="menu-badge">⭐ Pilihan Editor</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="window.location.href='katalog.html'">
+                <div class="menu-thumb g4">🥩</div>
+                <div class="menu-body">
+                    <div class="menu-cat">Protein Tinggi</div>
+                    <div class="menu-name">Steak Dada Ayam Saus Lemon</div>
+                    <div class="menu-footer">
+                        <div class="menu-price">Rp 25.000</div>
+                        <div class="menu-badge">💪 High Protein</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="window.location.href='katalog.html'">
+                <div class="menu-thumb g5">🫔</div>
+                <div class="menu-body">
+                    <div class="menu-cat">Sarapan</div>
+                    <div class="menu-name">Roti Gandum Isi Telur &amp; Keju</div>
+                    <div class="menu-footer">
+                        <div class="menu-price">Rp 12.000</div>
+                        <div class="menu-badge">🌅 Sarapan</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="window.location.href='katalog.html'">
+                <div class="menu-thumb g6">🍣</div>
+                <div class="menu-body">
+                    <div class="menu-cat">Spesial</div>
+                    <div class="menu-name">Salmon Teriyaki Bowl Nasi Merah</div>
+                    <div class="menu-footer">
+                        <div class="menu-price">Rp 30.000</div>
+                        <div class="menu-badge">✨ Premium</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-
-        <div class="art-card">
-          <div class="art-img c6"><img src="img/common-food-allergens-people.jpg" alt="Protein Murah untuk Anak Kos"></div>
-          <div class="art-body">
-            <div class="art-cat">Gizi & Nutrisi</div>
-            <div class="art-title">Protein Murah Meriah untuk Anak Kos yang Aktif Kuliah</div>
-            <div class="art-meta">
-              <span>10 Apr 2025</span>
-              <span class="meta-dot"></span>
-              <span>4 menit</span>
-            </div>
-            <div class="art-read" onclick="window.location.href='detail-artikel.html'" style="cursor:pointer">Baca selengkapnya →</div>
-          </div>
+        <div class="see-more">
+            <button class="btn-outline" onclick="window.location.href='katalog.html'">Lihat Semua Menu (50+)</button>
         </div>
+    </section>
 
-      </div><!-- end articles-grid -->
-
-      <!-- Pagination -->
-      <div class="pagination">
-        <button class="page-btn">‹</button>
-        <button class="page-btn active" onclick="setPage(this)">1</button>
-        <button class="page-btn" onclick="setPage(this)">2</button>
-        <button class="page-btn" onclick="setPage(this)">3</button>
-        <button class="page-btn" onclick="setPage(this)">4</button>
-        <button class="page-btn">›</button>
-      </div>
-
-    </div><!-- end articles-col -->
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-
-      <!-- Popular -->
-      <div class="sidebar-card">
-        <div class="sidebar-title">Artikel Terpopuler</div>
-        <div class="popular-list">
-          <div class="popular-item">
-            <div class="pop-num">01</div>
-            <div>
-              <div class="pop-title">Cara Atur Makan Sehat Budget 30 Ribu</div>
-              <div class="pop-meta">1.2K dibaca</div>
-            </div>
-          </div>
-          <div class="popular-item">
-            <div class="pop-num">02</div>
-            <div>
-              <div class="pop-title">5 Cara Hemat Pengeluaran Makan Kuliah</div>
-              <div class="pop-meta">980 dibaca</div>
-            </div>
-          </div>
-          <div class="popular-item">
-            <div class="pop-num">03</div>
-            <div>
-              <div class="pop-title">Menu Rumahan vs Makanan Instan</div>
-              <div class="pop-meta">754 dibaca</div>
-            </div>
-          </div>
-          <div class="popular-item">
-            <div class="pop-num">04</div>
-            <div>
-              <div class="pop-title">Protein Murah untuk Anak Kos Aktif</div>
-              <div class="pop-meta">612 dibaca</div>
-            </div>
-          </div>
+    <!-- ======= WHY KOSBITES ======= -->
+    <section class="why">
+        <div class="section-label">
+            <div class="badge">Kenapa KosBites?</div>
         </div>
-      </div>
-
-      <!-- Tag Cloud -->
-      <div class="sidebar-card">
-        <div class="sidebar-title">Topik</div>
-        <div class="tag-cloud">
-          <div class="tag">Sehat</div>
-          <div class="tag">Hemat</div>
-          <div class="tag">Gizi</div>
-          <div class="tag">Resep</div>
-          <div class="tag">Mahasiswa</div>
-          <div class="tag">Meal Plan</div>
-          <div class="tag">Protein</div>
-          <div class="tag">Sayuran</div>
-          <div class="tag">Budget</div>
-          <div class="tag">Tidur</div>
+        <h2 class="section-title">Beda dari yang Lain</h2>
+        <p class="section-sub">Kami tahu struggle anak kos — itu kenapa kami hadir.</p>
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-icon">💰</div>
+                <div>
+                    <h3>Budget Friendly Banget</h3>
+                    <p>Mulai dari Rp 12.000 per porsi, tetap enak dan mengenyangkan tanpa bobol dompet.</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🥦</div>
+                <div>
+                    <h3>Gizi Terjamin</h3>
+                    <p>Setiap menu dirancang ahli gizi agar kamu tetap fokus kuliah dengan nutrisi cukup.</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">⚡</div>
+                <div>
+                    <h3>Antar Super Cepat</h3>
+                    <p>Estimasi 30–45 menit dari kamu checkout sampai makanan tiba di kosanmu.</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">🔄</div>
+                <div>
+                    <h3>Paket Langganan Hemat</h3>
+                    <p>Berlangganan mingguan atau bulanan, otomatis lebih murah dan bebas pikir soal makan.</p>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <!-- Newsletter -->
-      <div class="newsletter-card">
-        <div class="nl-title">Dapet Tips Tiap Minggu!</div>
-        <div class="nl-desc">Langganan newsletter KosBites dan dapet tips makan hemat setiap minggu langsung ke emailmu.</div>
-        <input class="newsletter-input" type="email" placeholder="email@kamu.com">
-        <button class="newsletter-btn">Langganan Gratis →</button>
-      </div>
+    <!-- ======= TESTIMONIAL ======= -->
+    <section class="testimonial">
+        <div class="section-label">
+            <div class="badge">Kata Mereka</div>
+        </div>
+        <h2 class="section-title">Ribuan Mahasiswa Sudah Buktikan</h2>
+        <p class="section-sub">Jangan cuma percaya omongan kami — ini kata para pelanggan setia KosBites.</p>
+        <div class="testi-grid">
+            <div class="testi-card">
+                <div class="stars">★★★★★</div>
+                <div class="testi-text">"Udah 3 bulan langganan, gak pernah kecewa. Makanannya enak, harga masih bisa
+                    diterima kantong anak kos!"</div>
+                <div class="testi-user">
+                    <div class="avatar" style="background:#16A34A;">RA</div>
+                    <div>
+                        <div class="testi-name">Rizka Amalia</div>
+                        <div class="testi-role">Mahasiswa FKM UNAIR</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card">
+                <div class="stars">★★★★★</div>
+                <div class="testi-text">"Pas deadline skripsi gak sempet keluar beli makan, langsung order KosBites.
+                    Antar cepet, panas, enak!"</div>
+                <div class="testi-user">
+                    <div class="avatar" style="background:#D97706;">FP</div>
+                    <div>
+                        <div class="testi-name">Farel Pratama</div>
+                        <div class="testi-role">Mahasiswa Teknik ITS</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card">
+                <div class="stars">★★★★☆</div>
+                <div class="testi-text">"Menu variasinya banyak banget, tiap hari beda. Gak bosen meski udah langganan
+                    sebulan lebih. Recommended!"</div>
+                <div class="testi-user">
+                    <div class="avatar" style="background:#7C3AED;">DS</div>
+                    <div>
+                        <div class="testi-name">Dina Safitri</div>
+                        <div class="testi-role">Mahasiswa Fisip UNAIR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    </div><!-- end sidebar -->
+    <!-- ======= CTA BANNER ======= -->
+    <section class="cta-banner">
+        <h2>Siap Makan Enak Hari Ini? 🍱</h2>
+        <p>Daftar sekarang dan dapatkan diskon 20% untuk pesanan pertamamu.</p>
+        <div class="cta-banner-btns">
+            <button class="btn-green btn-white" onclick="window.location.href='katalog.html'">Mulai Pesan
+                Sekarang</button>
+            <button class="btn-ghost">Lihat Paket Langganan</button>
+        </div>
+    </section>
 
-  </div><!-- end main -->
-
-  <!-- ======= FOOTER ======= -->
-  <footer>
-    <div>
-      <div class="footer-logo">Kos<span>Bites</span> 🍱</div>
-      <div class="footer-tagline">Makan enak tanpa ribet.</div>
-    </div>
-    <div class="footer-links">
-      <a href="#">Tentang Kami</a>
-      <a href="#">Kebijakan Privasi</a>
-      <a href="#">Bantuan</a>
-      <a href="#">Kontak</a>
-    </div>
-    <div class="footer-copy">© 2025 KosBites</div>
-  </footer>
-
-  <!-- ======= JAVASCRIPT ======= -->
-  <script>
-    // Filter chip active state
-    function setChip(el) {
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      el.classList.add('active');
-    }
-
-    // Pagination active state
-    function setPage(el) {
-      document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
-      el.classList.add('active');
-    }
-  </script>
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <div>
+            <div class="footer-logo">Kos<span>Bites</span> 🍱</div>
+            <div class="footer-tagline">Makan enak tanpa ribet.</div>
+        </div>
+        <div class="footer-links">
+            <a href="#">Tentang Kami</a>
+            <a href="#">Kebijakan Privasi</a>
+            <a href="#">Bantuan</a>
+            <a href="#">Kontak</a>
+        </div>
+        <div class="footer-copy">© 2025 KosBites</div>
+    </footer>
 
 </body>
+
 </html>
